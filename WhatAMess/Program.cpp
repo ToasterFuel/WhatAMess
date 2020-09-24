@@ -4,6 +4,7 @@
 #include <stb_image.h>
 
 #include "shader_s.h"
+#include "Camera.h"
 
 #include <iostream>
 
@@ -13,6 +14,8 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 int main()
 {
@@ -81,11 +84,11 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
 	// texture coord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 
 	// load and create a texture 
@@ -157,6 +160,16 @@ int main()
 		// input
 		// -----
 		processInput(window);
+
+		// pass projection matrix to shader (note that in this case it could change every frame)
+		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		//ourShader.setMat4("projection", projection);
+
+		// camera/view transformation
+		//glm::mat4 view = camera.GetViewMatrix();
+		//ourShader.setMat4("view", view);
+		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
+
 
 		// render
 		// ------
