@@ -169,6 +169,21 @@ int main()
 		//glm::mat4 view = camera.GetViewMatrix();
 		//ourShader.setMat4("view", view);
 		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
+		/*
+		glm::mat4 model = glm::mat4(1.0f);
+		ourShader.setMat4("model", model);
+		glm::mat4 view = camera.GetViewMatrix();
+		ourShader.setMat4("view", view);
+		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, 0.1f, 100.0f);
+		ourShader.setMat4("projection", projection);
+		*/
+
+		glm::mat4 identity = glm::mat4(1.0f);
+		ourShader.setMat4("model", identity);
+		ourShader.setMat4("view", identity);
+		glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, 0.1f, 100.0f) * camera.GetViewMatrix();
+		ourShader.setMat4("projection", projection);
 
 
 		// render
