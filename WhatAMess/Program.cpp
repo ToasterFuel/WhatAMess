@@ -1,6 +1,5 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
@@ -10,7 +9,7 @@
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
+void processInput(Camera &camera, GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -19,10 +18,10 @@ const unsigned int SCR_HEIGHT = 600;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-Camera camera(Vector3(0.0f, 0.0f, 3.0f));
 
 int main()
 {
+    Camera camera(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -155,8 +154,6 @@ int main()
 	// or set it via the texture class
 	ourShader.setInt("texture2", 1);
 
-
-
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -164,32 +161,14 @@ int main()
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		// input
-		// -----
-		processInput(window);
+		processInput(camera, window);
 
-		// pass projection matrix to shader (note that in this case it could change every frame)
-		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		//ourShader.setMat4("projection", projection);
-
-		// camera/view transformation
-		//glm::mat4 view = camera.GetViewMatrix();
-		//ourShader.setMat4("view", view);
 		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
-		/*
-		glm::mat4 model = glm::mat4(1.0f);
-		ourShader.setMat4("model", model);
-		glm::mat4 view = camera.GetViewMatrix();
-		ourShader.setMat4("view", view);
-		//glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, 0.1f, 100.0f);
-		ourShader.setMat4("projection", projection);
-		*/
 
 		glm::mat4 identity = glm::mat4(1.0f);
 		ourShader.setMat4("model", identity);
 		ourShader.setMat4("view", identity);
-		glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, 0.1f, 100.0f) * camera.GetViewMatrix();
+		glm::mat4 projection = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 		ourShader.setMat4("projection", projection);
 
 
@@ -229,18 +208,28 @@ int main()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
+void processInput(Camera &camera, GLFWwindow *window)
 {
 	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
-	if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+    Vector3 moveDirection = Vector3();
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        moveDirection.y += 1;
 	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
-	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+        moveDirection.y -= 1;
 	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+        moveDirection.x += 1;
+	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        moveDirection.x -= 1;
+    camera.position += moveDirection * 3 * deltaTime;
+
+    float zoomMultiplier = 0;
+    if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        zoomMultiplier += 1;
+    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        zoomMultiplier -= 1;
+
+    camera.zoom += zoomMultiplier * 100 * deltaTime;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

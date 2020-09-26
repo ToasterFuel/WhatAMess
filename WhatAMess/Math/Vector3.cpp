@@ -2,6 +2,10 @@
 
 #include "Vector3.h"
 
+const Vector3 Vector3::UP = Vector3(0, 1, 0);
+const Vector3 Vector3::RIGHT = Vector3(1, 0, 0);
+const Vector3 Vector3::FORWARD = Vector3(0, 0, -1);
+
 Vector3::Vector3(float x, float y, float z): x(x), y(y), z(z)
 {
 };
@@ -73,6 +77,12 @@ Vector3& Vector3::operator/=(const float& scalar)
     z /= scalar;
 
     return *this;
+}
+
+std::ostream& operator<<(std::ostream &os, const Vector3& vector)
+{
+    os << "(" << vector.x << ", " << vector.y << ", " << vector.z << ")";
+    return os;
 }
 
 Vector3 Vector3::Cross(const Vector3& a, const Vector3& b)
