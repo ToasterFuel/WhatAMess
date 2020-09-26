@@ -19,8 +19,12 @@ public:
     Vector3& operator-=(const Vector3& other);
     Vector3 operator*(const float& scalar) const;
     Vector3& operator*=(const float& scalar);
+    Vector3 operator/(const float& scalar) const;
+    Vector3& operator/=(const float& scalar);
 
     static Vector3 Cross(const Vector3& a, const Vector3& b);
+    static Vector3 Normalize(const Vector3& vector);
+    static float Magnitude(const Vector3& vector);
 };
 
 #endif

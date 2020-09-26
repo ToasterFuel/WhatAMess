@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
@@ -18,7 +19,7 @@ const unsigned int SCR_HEIGHT = 600;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(Vector3(0.0f, 0.0f, 3.0f));
 
 int main()
 {
