@@ -1,3 +1,13 @@
+/*
+ * TODO:
+ * 1) Create a window class that does all openGL init and tear down
+ * 2) Grab the Shader class from Breakout
+ * 2a) Put vert/frag shader in the same file to read in
+ * 3) Grab the Texture class from Breakout
+ * 4) Create some kind of renderer?
+ * 5) Create a time object that handles timing/delta timings
+ */
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
