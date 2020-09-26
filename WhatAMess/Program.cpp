@@ -6,6 +6,7 @@
  * 3) Grab the Texture class from Breakout
  * 4) Create some kind of renderer?
  * 5) Create a time object that handles timing/delta timings
+ * 6) How do you want to handle global singletons like Timings/Window?
  */
 
 #include <glad/glad.h>
