@@ -1,7 +1,8 @@
 /*
  * TODO:
- * 2) Grab the Shader class from Breakout
  * 2a) Put vert/frag shader in the same file to read in
+ * 2b) Don't use glm for setting values in the shader
+
  * 3) Grab the Texture class from Breakout
  * 4) Create some kind of renderer?
  * 5) Create a time object that handles timing/delta timings

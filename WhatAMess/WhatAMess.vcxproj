@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Graphics\Shader.h" />
     <ClInclude Include="Graphics\Window.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Math\Vector3.h" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Program.cpp" />
