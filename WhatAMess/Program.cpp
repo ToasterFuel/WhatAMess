@@ -1,6 +1,5 @@
 /*
  * TODO:
- * 1) Create a window class that does all openGL init and tear down
  * 2) Grab the Shader class from Breakout
  * 2a) Put vert/frag shader in the same file to read in
  * 3) Grab the Texture class from Breakout
@@ -167,6 +166,8 @@ int main()
 		ourShader.use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        Window::Instance().SwapBuffers();
+        Window::Instance().PullEvents();
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
