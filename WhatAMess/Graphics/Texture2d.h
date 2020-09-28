@@ -1,0 +1,23 @@
+#ifndef __SPRITE_H__
+#define __SPRITE_H__
+
+class Texture2d
+{
+public:
+    Texture2d();
+    void Generate(unsigned int width, unsigned int height, unsigned char* data);
+    void Bind() const;
+
+private:
+    unsigned int id;
+    unsigned int width;
+    unsigned int height;
+    unsigned int internalFormat;
+    unsigned int imageFormat;
+    unsigned int wrapS;
+    unsigned int wrapT;
+    unsigned int filterMin;
+    unsigned int filterMax;
+};
+
+#endif
