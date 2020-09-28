@@ -9,60 +9,29 @@
  * 6) How do you want to handle global singletons like Timings/Window?
  */
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#include "Input.h"
 #include "shader_s.h"
 #include "Camera.h"
+#include "Graphics/Window.h"
 
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(Camera &camera, GLFWwindow *window);
-
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+void processInput(Camera &camera);
 
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
-
 int main()
 {
     Camera camera(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
-	// glfw: initialize and configure
-	// ------------------------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-	// glfw window creation
-	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
+    if(!Window::Instance().Init(800, 600, "What A Mess"))
+    {
+        Window::Instance().CleanUp();
+        return -1;
+    }
 
 	// build and compile our shader zprogram
 	// ------------------------------------
@@ -167,12 +136,12 @@ int main()
 
 	// render loop
 	// -----------
-	while (!glfwWindowShouldClose(window))
+	while(Window::Instance().IsRunning())
 	{
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		processInput(camera, window);
+        processInput(camera);
 
 		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
 
@@ -198,11 +167,6 @@ int main()
 		ourShader.use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
-		glfwSwapBuffers(window);
-		glfwPollEvents();
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -211,43 +175,33 @@ int main()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
-	glfwTerminate();
+    Window::Instance().CleanUp();
 	return 0;
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(Camera &camera, GLFWwindow *window)
+void processInput(Camera &camera)
 {
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+    if(Input::IsKeyPressed(KEY_ESCAPE))
+        Window::Instance().Close();
+
     Vector3 moveDirection = Vector3();
-    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_W))
         moveDirection.y += 1;
-	if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_S))
         moveDirection.y -= 1;
-	if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_D))
         moveDirection.x += 1;
-	if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_A))
         moveDirection.x -= 1;
     camera.position += moveDirection * 3 * deltaTime;
 
     float zoomMultiplier = 0;
-    if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_UP))
         zoomMultiplier += 1;
-    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if(Input::IsKeyPressed(KEY_DOWN))
         zoomMultiplier -= 1;
 
     camera.zoom += zoomMultiplier * 100 * deltaTime;
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
 }

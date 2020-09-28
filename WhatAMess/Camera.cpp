@@ -1,6 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Camera.h"
+#include "Graphics/Window.h"
 
 Camera::Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip):
         position(position), rotation(rotation), zoom(zoom), nearClip(nearClip), farClip(farClip)
@@ -11,8 +12,8 @@ Camera::Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, f
 glm::mat4 Camera::GetProjectionMatrix()
 {
     //glm::mat4 projection = glm::perspective(glm::radians(zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    float halfWidth = 800.0f / (2 * zoom);
-    float halfHeight = 600.0f / (2 * zoom);
+    float halfWidth = Window::Instance().GetWidth() / (2 * zoom);
+    float halfHeight = Window::Instance().GetHeight() / (2 * zoom);
     return glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, nearClip, farClip);
 }
 
