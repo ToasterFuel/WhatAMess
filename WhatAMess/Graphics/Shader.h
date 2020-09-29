@@ -1,7 +1,7 @@
 #ifndef __SHADER_H__
 #define __SHADER_H__
 
-//TODO: don't have glm types here!
+//TODO: don't have glm types here?
 #include <glm/glm.hpp>
 
 class Shader

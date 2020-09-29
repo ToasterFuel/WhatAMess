@@ -18,7 +18,7 @@ Vector3::Vector3(): x(0), y(0), z(0)
 {
 };
 
-glm::vec3 Vector3::ToGraphicsRepresentation()
+glm::vec3 Vector3::ToGraphicsRepresentation() const
 {
     return glm::vec3(x, y, z);
 }

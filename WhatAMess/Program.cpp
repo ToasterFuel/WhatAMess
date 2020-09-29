@@ -15,7 +15,10 @@
 #include "Input.h"
 #include "shader_s.h"
 #include "Camera.h"
+#include "Graphics/Renderer.h"
+#include "Graphics/Texture2d.h"
 #include "Graphics/Window.h"
+#include "Graphics/Sprite.h"
 
 #include <iostream>
 
@@ -35,7 +38,7 @@ int main()
 
 	// build and compile our shader zprogram
 	// ------------------------------------
-	Shader ourShader("Assets/Shaders/texture.vs", "Assets/Shaders/texture.fs");
+	Shader_s ourShader("Assets/Shaders/texture.vs", "Assets/Shaders/texture.fs");
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -114,7 +117,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load image, create texture and generate mipmaps
 	data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
-	if (data)
+	if(data)
 	{
 		// note that the awesomeface.png has transparency and thus an alpha channel, so make sure to tell OpenGL the data type is of GL_RGBA
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -125,6 +128,47 @@ int main()
 		std::cout << "Failed to load texture" << std::endl;
 	}
 	stbi_image_free(data);
+
+
+
+    Texture2d testTexture;
+    data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
+    testTexture.Generate(width, height, data);
+	stbi_image_free(data);
+
+
+    Shader testShader;
+
+    std::string vertexCode;
+    std::string fragmentCode;
+    try
+    {
+        // open files
+        std::ifstream vertexShaderFile("Assets/Shaders/sprite.vs");
+        std::ifstream fragmentShaderFile("Assets/Shaders/sprite.frag");
+        std::stringstream vShaderStream, fShaderStream;
+        // read file's buffer contents into streams
+        vShaderStream << vertexShaderFile.rdbuf();
+        fShaderStream << fragmentShaderFile.rdbuf();
+        // close file handlers
+        vertexShaderFile.close();
+        fragmentShaderFile.close();
+        // convert stream into string
+        vertexCode = vShaderStream.str();
+        fragmentCode = fShaderStream.str();
+    }
+    catch (std::exception e)
+    {
+        std::cout << "ERROR::SHADER: Failed to read shader files" << std::endl;
+    }
+    const char *vShaderCode = vertexCode.c_str();
+    const char *fShaderCode = fragmentCode.c_str();
+    testShader.Compile(vShaderCode, fShaderCode);
+    Sprite testSprite(testShader, testTexture);
+
+
+
+
 
 	// tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
 	// -------------------------------------------------------------------------------------------
@@ -151,6 +195,8 @@ int main()
 		glm::mat4 projection = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 		ourShader.setMat4("projection", projection);
 
+        Renderer::Instance().SyncCameraViewProjection(camera);
+        Renderer::Instance().DrawSprite(testSprite);
 
 		// render
 		// ------

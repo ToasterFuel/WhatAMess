@@ -14,8 +14,8 @@ public:
     float farClip;
 
     Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip);
-    glm::mat4 GetProjectionMatrix();
-    glm::mat4 GetViewMatrix();
+    glm::mat4 GetProjectionMatrix() const;
+    glm::mat4 GetViewMatrix() const;
     void UpdateCameraVectors();
 
 private:

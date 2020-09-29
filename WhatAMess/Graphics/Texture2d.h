@@ -1,5 +1,5 @@
-#ifndef __SPRITE_H__
-#define __SPRITE_H__
+#ifndef __TEXTURE_2D_H__
+#define __TEXTURE_2D_H__
 
 class Texture2d
 {
