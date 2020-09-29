@@ -7,13 +7,13 @@ Sprite::Sprite(Shader &shader, Texture2d& texture, Vector3 position, Vector3 sca
     //TODO make this 3d positions?
     float vertices[] = {
         //pos      //tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f,
+       -0.5f,  0.5f, 0.0f, 1.0f,
+        0.5f, -0.5f, 1.0f, 0.0f,
+       -0.5f, -0.5f, 0.0f, 0.0f,
 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+       -0.5f,  0.5f, 0.0f, 1.0f,
+        0.5f,  0.5f, 1.0f, 1.0f,
+        0.5f, -0.5f, 1.0f, 0.0f
     };
 
     glGenVertexArrays(1, &this->quadVAO);

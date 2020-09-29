@@ -21,6 +21,8 @@ void Renderer::DrawSprite(const Sprite &sprite) const
 
     sprite.shader.SetMatrix4("mvp", cameraProjection * cameraView * model);
 
+//glActiveTexture(GL_TEXTURE0);
+//glBindTexture(GL_TEXTURE_2D, texture1);
     glActiveTexture(GL_TEXTURE0);
     sprite.texture.Bind();
 

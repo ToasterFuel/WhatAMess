@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-void processInput(Camera &camera);
+void processInput(Camera &camera, Sprite &sprite);
 
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
@@ -186,16 +186,15 @@ int main()
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-        processInput(camera);
-
+        processInput(camera, testSprite);
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-        This doesnt draw
         Renderer::Instance().SyncCameraViewProjection(camera);
         Renderer::Instance().DrawSprite(testSprite);
 
+        /*
 		ourShader.use();
 		glm::mat4 identity = glm::mat4(1.0f);
 		ourShader.setMat4("model", identity);
@@ -203,7 +202,6 @@ int main()
 		glm::mat4 projection = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 		ourShader.setMat4("projection", projection);
 		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
-
 		// render
 		// ------
 		// bind textures on corresponding texture units
@@ -215,6 +213,7 @@ int main()
 		// render container
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        */
         Window::Instance().SwapBuffers();
         Window::Instance().PullEvents();
 	}
@@ -231,7 +230,7 @@ int main()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(Camera &camera)
+void processInput(Camera &camera, Sprite& sprite)
 {
     if(Input::IsKeyPressed(KEY_ESCAPE))
         Window::Instance().Close();
@@ -253,5 +252,12 @@ void processInput(Camera &camera)
     if(Input::IsKeyPressed(KEY_DOWN))
         zoomMultiplier -= 1;
 
+    float spinMultiplier = 0;
+    if(Input::IsKeyPressed(KEY_RIGHT))
+        spinMultiplier += 1;
+    if(Input::IsKeyPressed(KEY_LEFT))
+        spinMultiplier -= 1;
+
+    sprite.rotation += spinMultiplier * 100 * deltaTime;
     camera.zoom += zoomMultiplier * 100 * deltaTime;
 }

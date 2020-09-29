@@ -39,6 +39,9 @@ bool Window::Init(const int width, const int height, const char *windowTitle)
         return false;
     }
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     return true;
 }
 
