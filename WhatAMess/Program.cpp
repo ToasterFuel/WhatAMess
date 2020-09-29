@@ -166,6 +166,8 @@ int main()
     const char *fShaderCode = fragmentCode.c_str();
     testShader.Compile(vShaderCode, fShaderCode);
     Sprite testSprite(testShader, testTexture);
+    Sprite testSprite2(testShader, testTexture);
+    testSprite2.position += Vector3(4, -5);
 
 
 
@@ -193,6 +195,7 @@ int main()
 
         Renderer::Instance().SyncCameraViewProjection(camera);
         Renderer::Instance().DrawSprite(testSprite);
+        Renderer::Instance().DrawSprite(testSprite2);
 
         /*
 		ourShader.use();
@@ -244,7 +247,7 @@ void processInput(Camera &camera, Sprite& sprite)
         moveDirection.x += 1;
     if(Input::IsKeyPressed(KEY_A))
         moveDirection.x -= 1;
-    camera.position += moveDirection * 3 * deltaTime;
+    sprite.position += moveDirection * 3 * deltaTime;
 
     float zoomMultiplier = 0;
     if(Input::IsKeyPressed(KEY_UP))
