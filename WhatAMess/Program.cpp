@@ -131,14 +131,15 @@ int main()
 
 
 
+
+
+
     Texture2d testTexture;
     data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
     testTexture.Generate(width, height, data);
 	stbi_image_free(data);
 
-
     Shader testShader;
-
     std::string vertexCode;
     std::string fragmentCode;
     try
@@ -187,22 +188,24 @@ int main()
 		lastFrame = currentFrame;
         processInput(camera);
 
-		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
 
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+        This doesnt draw
+        Renderer::Instance().SyncCameraViewProjection(camera);
+        Renderer::Instance().DrawSprite(testSprite);
+
+		ourShader.use();
 		glm::mat4 identity = glm::mat4(1.0f);
 		ourShader.setMat4("model", identity);
 		ourShader.setMat4("view", identity);
 		glm::mat4 projection = camera.GetProjectionMatrix() * camera.GetViewMatrix();
 		ourShader.setMat4("projection", projection);
-
-        Renderer::Instance().SyncCameraViewProjection(camera);
-        Renderer::Instance().DrawSprite(testSprite);
+		ourShader.setVec3("aColor", glm::vec3(1, 1, 1));
 
 		// render
 		// ------
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		// bind textures on corresponding texture units
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
@@ -210,7 +213,6 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		// render container
-		ourShader.use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         Window::Instance().SwapBuffers();

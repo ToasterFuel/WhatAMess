@@ -20,4 +20,11 @@ void Renderer::DrawSprite(const Sprite &sprite) const
     model = glm::scale(model, sprite.scale.ToGraphicsRepresentation());
 
     sprite.shader.SetMatrix4("mvp", cameraProjection * cameraView * model);
+
+    glActiveTexture(GL_TEXTURE0);
+    sprite.texture.Bind();
+
+    glBindVertexArray(sprite.quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 }

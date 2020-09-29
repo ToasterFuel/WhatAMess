@@ -22,7 +22,6 @@ public:
 
     Shader& shader;
     Texture2d& texture;
-private:
     unsigned int quadVAO;
 };
 
