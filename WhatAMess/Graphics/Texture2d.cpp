@@ -9,8 +9,19 @@ Texture2d::Texture2d() : width(0), height(0),
 {
 }
 
-void Texture2d::Generate(unsigned int width, unsigned int height, unsigned char* data)
+void Texture2d::Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data)
 {
+    if(numberOfBitsPerPixel == 3)
+    {
+        internalFormat = GL_RGB;
+        imageFormat = GL_RGB;
+    }
+    else if(numberOfBitsPerPixel == 4)
+    {
+        internalFormat = GL_RGBA;
+        imageFormat = GL_RGBA;
+    }
+
     this->width = width;
     this->height = height;
     glGenTextures(1, &this->id);

@@ -5,7 +5,7 @@ class Texture2d
 {
 public:
     Texture2d();
-    void Generate(unsigned int width, unsigned int height, unsigned char* data);
+    void Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data);
     void Bind() const;
 
 private:

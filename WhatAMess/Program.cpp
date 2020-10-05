@@ -134,9 +134,12 @@ int main()
 
 
 
+
+
+
     Texture2d testTexture;
     data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    testTexture.Generate(width, height, data);
+    testTexture.Generate(width, height, nrChannels, data);
 	stbi_image_free(data);
 
     Shader testShader;
