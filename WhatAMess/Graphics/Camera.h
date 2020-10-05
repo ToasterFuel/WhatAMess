@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 
-#include "Math/Vector3.h"
+#include "../Math/Vector3.h"
 
 class Camera
 {

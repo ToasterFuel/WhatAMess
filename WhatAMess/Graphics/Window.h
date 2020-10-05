@@ -1,6 +1,8 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
+#include "../Input/KeyCode.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -13,7 +15,7 @@ public:
     void CleanUp();
     void SwapBuffers();
     void PullEvents();
-    GLFWwindow* GetWindow();
+    bool IsKeyPressed(KeyCode keyCode);
     int GetWidth();
     int GetHeight();
 

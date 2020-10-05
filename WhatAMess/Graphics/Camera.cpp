@@ -1,7 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Camera.h"
-#include "Graphics/Window.h"
+#include "Window.h"
 
 Camera::Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip):
         position(position), rotation(rotation), zoom(zoom), nearClip(nearClip), farClip(farClip)

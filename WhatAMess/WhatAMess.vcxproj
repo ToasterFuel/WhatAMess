@@ -145,13 +145,14 @@
     <ClInclude Include="Graphics\Texture2d.h" />
     <ClInclude Include="Graphics\Window.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Input\KeyCode.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Shader_s.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
     <ClCompile Include="Graphics\Sprite.cpp" />

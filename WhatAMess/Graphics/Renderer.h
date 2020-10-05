@@ -2,7 +2,7 @@
 #define __RENDERER_H__
 
 #include "Sprite.h"
-#include "../Camera.h"
+#include "Camera.h"
 
 class Renderer
 {

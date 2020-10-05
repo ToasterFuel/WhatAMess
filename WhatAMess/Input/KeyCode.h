@@ -1,7 +1,5 @@
-#ifndef __INPUT_H__
-#define __INPUT_H__
-
-#include "Graphics/Window.h"
+#ifndef __KEY_CODE_H__
+#define __KEY_CODE_H__
 
 /*
  * All these values are stolen from openGL.
@@ -133,15 +131,6 @@ enum KeyCode
     KEY_MENU            = 348,
 
     KEY_LAST        = KEY_MENU
-};
-
-class Input
-{
-public:
-    static bool IsKeyPressed(KeyCode keyCode)
-    {
-        return glfwGetKey(Window::Instance().GetWindow(), keyCode) == GLFW_PRESS;
-    }
 };
 
 #endif

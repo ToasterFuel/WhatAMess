@@ -70,9 +70,9 @@ void Window::PullEvents()
     glfwPollEvents();
 }
 
-GLFWwindow* Window::GetWindow()
+bool Window::IsKeyPressed(KeyCode keyCode)
 {
-    return window;
+    return glfwGetKey(window, keyCode) == GLFW_PRESS;
 }
 
 int Window::GetWidth()

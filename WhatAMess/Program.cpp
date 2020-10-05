@@ -12,9 +12,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-#include "Input.h"
+#include "Input/Input.h"
 #include "shader_s.h"
-#include "Camera.h"
+#include "Graphics/Camera.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/Texture2d.h"
 #include "Graphics/Window.h"
