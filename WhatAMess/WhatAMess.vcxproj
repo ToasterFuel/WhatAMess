@@ -18,6 +18,33 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad.c" />
+    <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\OpenGL\OpenGL_Window.cpp" />
+    <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="Graphics\Shader.cpp" />
+    <ClCompile Include="Graphics\Sprite.cpp" />
+    <ClCompile Include="Graphics\Texture2d.cpp" />
+    <ClCompile Include="Graphics\WebGL\WebGL_Window.cpp" />
+    <ClCompile Include="Graphics\Window.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="Program.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\OpenGL\OpenGL_Window.h" />
+    <ClInclude Include="Graphics\Renderer.h" />
+    <ClInclude Include="Graphics\Shader.h" />
+    <ClInclude Include="Graphics\Sprite.h" />
+    <ClInclude Include="Graphics\Texture2d.h" />
+    <ClInclude Include="Graphics\WebGL\WebGL_Window.h" />
+    <ClInclude Include="Graphics\Window.h" />
+    <ClInclude Include="Input\Input.h" />
+    <ClInclude Include="Input\KeyCode.h" />
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Shader_s.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9B5BC19E-C5C9-4B37-A6E7-051DDBA3E167}</ProjectGuid>
@@ -141,34 +168,6 @@
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Graphics\OpenGL\OpenGL_Window.h" />
-    <ClInclude Include="Graphics\Renderer.h" />
-    <ClInclude Include="Graphics\Shader.h" />
-    <ClInclude Include="Graphics\Sprite.h" />
-    <ClInclude Include="Graphics\Texture2d.h" />
-    <ClInclude Include="Graphics\WebGL\WebGL_Window.h" />
-    <ClInclude Include="Graphics\Window.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Input\KeyCode.h" />
-    <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="Shader_s.h" />
-    <ClInclude Include="Transform.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="glad.c" />
-    <ClCompile Include="Graphics\Camera.cpp" />
-    <ClCompile Include="Graphics\OpenGL\OpenGL_Window.cpp" />
-    <ClCompile Include="Graphics\Renderer.cpp" />
-    <ClCompile Include="Graphics\Shader.cpp" />
-    <ClCompile Include="Graphics\Sprite.cpp" />
-    <ClCompile Include="Graphics\Texture2d.cpp" />
-    <ClCompile Include="Graphics\WebGL\WebGL_Window.cpp" />
-    <ClCompile Include="Graphics\Window.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="Program.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

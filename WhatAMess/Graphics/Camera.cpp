@@ -3,8 +3,8 @@
 #include "Camera.h"
 #include "Window.h"
 
-Camera::Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip):
-        position(position), rotation(rotation), zoom(zoom), nearClip(nearClip), farClip(farClip)
+Camera::Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip) :
+    position(position), rotation(rotation), zoom(zoom), nearClip(nearClip), farClip(farClip)
 {
     UpdateCameraVectors();
 }

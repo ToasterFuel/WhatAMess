@@ -1,6 +1,6 @@
 #include "Window.h"
 
-Window::Window(): actualWindow()
+Window::Window() : actualWindow()
 {
 }
 

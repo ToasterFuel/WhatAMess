@@ -1,7 +1,14 @@
 #ifdef OPEN_GL_BUILD
 #include "OpenGL_Window.h"
+#include "../Window.h"
 
 #include <iostream>
+
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+    Window::Instance().SetSize(width, height);
+}
 
 bool OpenGL_Window::Init(const int width, const int height, const char *windowTitle)
 {
@@ -20,7 +27,7 @@ bool OpenGL_Window::Init(const int width, const int height, const char *windowTi
 #endif
 
     window = glfwCreateWindow(width, height, windowTitle, NULL, NULL);
-    if(window == NULL)
+    if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -30,11 +37,11 @@ bool OpenGL_Window::Init(const int width, const int height, const char *windowTi
     // glfw window creation
     // --------------------
     glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, OpenGL_Window::FramebufferSizeCallback);
+    glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return false;

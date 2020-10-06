@@ -22,6 +22,10 @@ public:
     bool IsKeyPressed(KeyCode keyCode);
     int GetWidth();
     int GetHeight();
+    /*
+     * Note: This does not actually set the size of the window but just the internal storage of the width and height variables.
+     */
+    void SetSize(const int width, const int height);
 
     static Window& Instance()
     {
@@ -30,7 +34,7 @@ public:
     }
 
     /*
-protected:
+    protected:
     Window(); // Prevent construction
     Window(const Window&); // Prevent construction by copying
     Window& operator=(const Window&); // Prevent assignment
@@ -44,6 +48,5 @@ private:
     WebGL_Window actualWindow;
     friend class WebGL_Window;
 #endif
-    void SetSize(const int width, const int height);
 };
 #endif

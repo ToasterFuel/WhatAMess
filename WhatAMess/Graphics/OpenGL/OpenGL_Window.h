@@ -4,7 +4,6 @@
 #ifdef OPEN_GL_BUILD
 
 #include "../../Input/KeyCode.h"
-#include "../Window.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -21,12 +20,6 @@ public:
     bool IsKeyPressed(KeyCode keyCode);
     int GetWidth();
     int GetHeight();
-
-    static void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
-    {
-        glViewport(0, 0, width, height);
-        Window::Instance().SetSize(width, height);
-    }
 
 private:
     int width;

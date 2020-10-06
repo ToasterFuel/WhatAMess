@@ -6,15 +6,15 @@ const Vector3 Vector3::UP = Vector3(0, 1, 0);
 const Vector3 Vector3::RIGHT = Vector3(1, 0, 0);
 const Vector3 Vector3::FORWARD = Vector3(0, 0, -1);
 
-Vector3::Vector3(float x, float y, float z): x(x), y(y), z(z)
+Vector3::Vector3(float x, float y, float z) : x(x), y(y), z(z)
 {
 };
 
-Vector3::Vector3(float x, float y): x(x), y(y), z(0)
+Vector3::Vector3(float x, float y) : x(x), y(y), z(0)
 {
 };
 
-Vector3::Vector3(): x(0), y(0), z(0)
+Vector3::Vector3() : x(0), y(0), z(0)
 {
 };
 

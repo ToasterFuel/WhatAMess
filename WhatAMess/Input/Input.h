@@ -1,8 +1,8 @@
 #ifndef __INPUT_H__
 #define __INPUT_H__
 
-#include "Input/KeyCode.h"
-#include "Graphics/Window.h"
+#include "KeyCode.h"
+#include "../Graphics/Window.h"
 
 class Input
 {

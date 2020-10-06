@@ -4,19 +4,19 @@
 #include "Texture2d.h"
 
 Texture2d::Texture2d() : width(0), height(0),
-        internalFormat(GL_RGBA), imageFormat(GL_RGBA), wrapS(GL_REPEAT),
-        wrapT(GL_REPEAT), filterMin(GL_LINEAR), filterMax(GL_LINEAR)
+internalFormat(GL_RGBA), imageFormat(GL_RGBA), wrapS(GL_REPEAT),
+wrapT(GL_REPEAT), filterMin(GL_LINEAR), filterMax(GL_LINEAR)
 {
 }
 
 void Texture2d::Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data)
 {
-    if(numberOfBitsPerPixel == 3)
+    if (numberOfBitsPerPixel == 3)
     {
         internalFormat = GL_RGB;
         imageFormat = GL_RGB;
     }
-    else if(numberOfBitsPerPixel == 4)
+    else if (numberOfBitsPerPixel == 4)
     {
         internalFormat = GL_RGBA;
         imageFormat = GL_RGBA;

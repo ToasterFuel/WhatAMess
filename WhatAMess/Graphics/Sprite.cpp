@@ -1,17 +1,17 @@
 #include "Sprite.h"
 
-Sprite::Sprite(Shader &shader, Texture2d& texture, Vector3 position, Vector3 scale, float rotation):
-            shader(shader), texture(texture), position(position), rotation(rotation), scale(scale)
+Sprite::Sprite(Shader &shader, Texture2d& texture, Vector3 position, Vector3 scale, float rotation) :
+    shader(shader), texture(texture), position(position), rotation(rotation), scale(scale)
 {
     unsigned int VBO;
     //TODO make this 3d positions?
     float vertices[] = {
         //pos      //tex
-       -0.5f,  0.5f, 0.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 1.0f,
         0.5f, -0.5f, 1.0f, 0.0f,
-       -0.5f, -0.5f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 0.0f,
 
-       -0.5f,  0.5f, 0.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 1.0f,
         0.5f,  0.5f, 1.0f, 1.0f,
         0.5f, -0.5f, 1.0f, 0.0f
     };
