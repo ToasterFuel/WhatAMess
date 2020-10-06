@@ -1,92 +1,55 @@
 #include "Window.h"
 
-#include <iostream>
+Window::Window(): actualWindow()
+{
+}
 
 bool Window::Init(const int width, const int height, const char *windowTitle)
 {
-    this->width = width;
-    this->height = height;
-
-    // glfw: initialize and configure
-    // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    window = glfwCreateWindow(width, height, windowTitle, NULL, NULL);
-    if(window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return false;
-    }
-
-    // glfw window creation
-    // --------------------
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, Window::FramebufferSizeCallback);
-
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return false;
-    }
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    return true;
+    return actualWindow.Init(width, height, windowTitle);
 }
 
 bool Window::IsRunning()
 {
-    return !glfwWindowShouldClose(window);
+    return actualWindow.IsRunning();
 }
 
 void Window::Close()
 {
-    glfwSetWindowShouldClose(window, true);
+    actualWindow.Close();
 }
 
 void Window::CleanUp()
 {
-    glfwTerminate();
+    actualWindow.CleanUp();
 }
 
 void Window::SwapBuffers()
 {
-    glfwSwapBuffers(window);
+    actualWindow.SwapBuffers();
 }
 
 void Window::PullEvents()
 {
-    glfwPollEvents();
-}
-
-bool Window::IsKeyPressed(KeyCode keyCode)
-{
-    return glfwGetKey(window, keyCode) == GLFW_PRESS;
+    actualWindow.PullEvents();
 }
 
 int Window::GetWidth()
 {
-    return width;
+    return actualWindow.GetWidth();
 }
 
 int Window::GetHeight()
 {
-    return height;
+    return actualWindow.GetHeight();
 }
 
-void Window::SetSize(int width, int height)
+bool Window::IsKeyPressed(KeyCode keyCode)
 {
-    this->width = width;
-    this->height = height;
+    return actualWindow.IsKeyPressed(keyCode);
+}
+
+void Window::SetSize(const int width, const int height)
+{
+    actualWindow.SetSize(width, height);
 }

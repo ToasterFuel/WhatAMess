@@ -3,12 +3,16 @@
 
 #include "../Input/KeyCode.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#ifdef OPEN_GL_BUILD
+#include "OpenGL/OpenGL_Window.h"
+#elif WEB_GL_BUILD
+#include "WebGL/WebGL_Window.h"
+#endif
 
 class Window
 {
 public:
+    Window();
     bool Init(int width, int height, const char *windowTitle);
     bool IsRunning();
     void Close();
@@ -25,12 +29,6 @@ public:
         return instance;
     }
 
-    static void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
-    {
-        glViewport(0, 0, width, height);
-        Window::Instance().SetSize(width, height);
-    }
-
     /*
 protected:
     Window(); // Prevent construction
@@ -38,11 +36,14 @@ protected:
     Window& operator=(const Window&); // Prevent assignment
     ~Window(); // Prevent unwanted destruction
     */
-
 private:
-    int width;
-    int height;
-    GLFWwindow* window;
-    void SetSize(int width, int height);
+#ifdef OPEN_GL_BUILD
+    OpenGL_Window actualWindow;
+    friend class OpenGL_Window;
+#elif WEB_GL_BUILD
+    WebGL_Window actualWindow;
+    friend class WebGL_Window;
+#endif
+    void SetSize(const int width, const int height);
 };
 #endif
