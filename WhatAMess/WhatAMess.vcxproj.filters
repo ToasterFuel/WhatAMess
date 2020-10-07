@@ -48,6 +48,9 @@
     <ClCompile Include="Graphics\WebGL\WebGL_Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Input\WebGL\WebGL_Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\Input.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\WebGL\WebGL_Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\WebGL\WebGL_Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

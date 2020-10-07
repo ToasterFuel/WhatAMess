@@ -28,6 +28,7 @@
     <ClCompile Include="Graphics\Texture2d.cpp" />
     <ClCompile Include="Graphics\WebGL\WebGL_Window.cpp" />
     <ClCompile Include="Graphics\Window.cpp" />
+    <ClCompile Include="Input\WebGL\WebGL_Input.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Program.cpp" />
   </ItemGroup>
@@ -42,6 +43,7 @@
     <ClInclude Include="Graphics\Window.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\KeyCode.h" />
+    <ClInclude Include="Input\WebGL\WebGL_Input.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Shader_s.h" />
   </ItemGroup>

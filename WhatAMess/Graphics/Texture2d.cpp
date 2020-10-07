@@ -11,12 +11,12 @@ wrapT(GL_REPEAT), filterMin(GL_LINEAR), filterMax(GL_LINEAR)
 
 void Texture2d::Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data)
 {
-    if (numberOfBitsPerPixel == 3)
+    if(numberOfBitsPerPixel == 3)
     {
         internalFormat = GL_RGB;
         imageFormat = GL_RGB;
     }
-    else if (numberOfBitsPerPixel == 4)
+    else if(numberOfBitsPerPixel == 4)
     {
         internalFormat = GL_RGBA;
         imageFormat = GL_RGBA;

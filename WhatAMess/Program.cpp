@@ -36,6 +36,7 @@ int main()
         return -1;
     }
 
+    /*
     // build and compile our shader zprogram
     // ------------------------------------
     Shader_s ourShader("Assets/Shaders/texture.vs", "Assets/Shaders/texture.fs");
@@ -128,6 +129,7 @@ int main()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
+    */
 
 
 
@@ -138,7 +140,9 @@ int main()
 
 
     Texture2d testTexture;
-    data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
     testTexture.Generate(width, height, nrChannels, data);
     stbi_image_free(data);
 
@@ -178,11 +182,11 @@ int main()
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------
-    ourShader.use(); // don't forget to activate/use the shader before setting uniforms!
+    //ourShader.use(); // don't forget to activate/use the shader before setting uniforms!
                      // either set it manually like so:
-    glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0);
+    //glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0);
     // or set it via the texture class
-    ourShader.setInt("texture2", 1);
+    //ourShader.setInt("texture2", 1);
 
     // render loop
     // -----------
@@ -226,9 +230,9 @@ int main()
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+    //glDeleteVertexArrays(1, &VAO);
+    //glDeleteBuffers(1, &VBO);
+    //glDeleteBuffers(1, &EBO);
 
     Window::Instance().CleanUp();
     return 0;
