@@ -13,6 +13,7 @@
 #include <stb_image.h>
 
 #include "Input/Input.h"
+#include "Utility/ShaderData.h"
 #include "shader_s.h"
 #include "Graphics/Camera.h"
 #include "Graphics/Renderer.h"
@@ -147,6 +148,7 @@ int main()
     stbi_image_free(data);
 
     Shader testShader;
+    /*
     std::string vertexCode;
     std::string fragmentCode;
     try
@@ -171,7 +173,14 @@ int main()
     }
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
-    testShader.Compile(vShaderCode, fShaderCode);
+    */
+    ShaderData shaderData;
+    if (!shaderData.LoadFromFile("Assets/Shaders/sprite.shader"))
+    {
+        std::cout << "Failed to load shader.\n";
+        return -1;
+    }
+    testShader.Compile(shaderData);
     Sprite testSprite(testShader, testTexture);
     Sprite testSprite2(testShader, testTexture);
     testSprite2.position += Vector3(4, -5);

@@ -1,6 +1,8 @@
 #ifndef __SHADER_H__
 #define __SHADER_H__
 
+#include "../Utility/ShaderData.h"
+
 //TODO: don't have glm types here?
 #include <glm/glm.hpp>
 
@@ -9,7 +11,7 @@ class Shader
 public:
     Shader();
     void Use();
-    void Compile(const char *vertexSource, const char *fragmentSource);
+    void Compile(ShaderData& shaderData);
     void SetFloat(const char *name, float value) const;
     void SetInteger(const char *name, int value) const;
     void SetVector2f(const char *name, const glm::vec2 value) const;

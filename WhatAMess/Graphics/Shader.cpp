@@ -13,16 +13,22 @@ void Shader::Use()
     glUseProgram(id);
 }
 
-void Shader::Compile(const char *vertexSource, const char *fragmentSource)
+void Shader::Compile(ShaderData& shaderData)
 {
+    const char* vertexShader = shaderData.GetVertexShader();
+    const char* fragmentShader = shaderData.GetFragmentShader();
     unsigned int vertShaderId, fragShaderId;
+
+    std::cout << "vertex: " << vertexShader << "\n\n";
+    std::cout << "fragment: " << fragmentShader << "\n\n";
+
     vertShaderId = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertShaderId, 1, &vertexSource, NULL);
+    glShaderSource(vertShaderId, 1, &vertexShader, NULL);
     glCompileShader(vertShaderId);
     CheckCompileErrors(vertShaderId, "VERTEX");
 
     fragShaderId = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragShaderId, 1, &fragmentSource, NULL);
+    glShaderSource(fragShaderId, 1, &fragmentShader, NULL);
     glCompileShader(fragShaderId);
     CheckCompileErrors(fragShaderId, "FRAGMENT");
 
