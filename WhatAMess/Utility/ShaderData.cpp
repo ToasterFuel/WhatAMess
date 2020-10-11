@@ -33,8 +33,6 @@ const char* ShaderData::GetFragmentShader() const
 
 void ShaderData::SaveShader(ShaderBuild shaderBuild, ShaderType shaderType, std::stringstream& ss)
 {
-    std::cout << "shaderType: " << shaderType << " ss: " << ss.str() << "\n\n\n\n";
-    std::cout << " END \n\n";
     if(shaderBuild == SHADER_OPEN_GL)
     {
         if(shaderType == SHADER_VERT)
@@ -108,7 +106,7 @@ bool ShaderData::LoadFromFile(const char* path)
                 return false;
             }
             shaderType = SHADER_VERT;
-            ss.clear();
+            ss.str(std::string());
             continue;
         }
         else if(line.compare(ShaderData::SHADER_DELIMITER) == 0)
@@ -120,7 +118,7 @@ bool ShaderData::LoadFromFile(const char* path)
             }
             SaveShader(shaderBuild, shaderType, ss);
             shaderType = SHADER_FRAG;
-            ss.clear();
+            ss.str(std::string());
             continue;
         }
         ss << line << '\n';

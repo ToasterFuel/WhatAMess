@@ -175,7 +175,7 @@ int main()
     const char *fShaderCode = fragmentCode.c_str();
     */
     ShaderData shaderData;
-    if (!shaderData.LoadFromFile("Assets/Shaders/sprite.shader"))
+    if(!shaderData.LoadFromFile("Assets/Shaders/sprite.shader"))
     {
         std::cout << "Failed to load shader.\n";
         return -1;
@@ -184,10 +184,6 @@ int main()
     Sprite testSprite(testShader, testTexture);
     Sprite testSprite2(testShader, testTexture);
     testSprite2.position += Vector3(4, -5);
-
-
-
-
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     // -------------------------------------------------------------------------------------------

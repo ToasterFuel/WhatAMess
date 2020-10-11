@@ -19,9 +19,6 @@ void Shader::Compile(ShaderData& shaderData)
     const char* fragmentShader = shaderData.GetFragmentShader();
     unsigned int vertShaderId, fragShaderId;
 
-    std::cout << "vertex: " << vertexShader << "\n\n";
-    std::cout << "fragment: " << fragmentShader << "\n\n";
-
     vertShaderId = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertShaderId, 1, &vertexShader, NULL);
     glCompileShader(vertShaderId);
