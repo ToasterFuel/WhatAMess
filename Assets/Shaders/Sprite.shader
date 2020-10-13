@@ -28,3 +28,31 @@ void main()
     color = texture(image, TexCoords);
     //color = vec4(TexCoords.x, TexCoords.y, 0.0f, 1.0f);
 }
+
+==========
+WebGL
+==========
+attribute vec3 aPos;
+attribute vec2 aTexCoord;
+uniform vec3 aColor;
+varying vec3 Color;
+varying vec2 TexCoord;
+void main()
+{
+    gl_Position = vec4(aPos, 1.0);
+    Color = aColor;
+    TexCoord = aTexCoord;
+}
+
+++++++++++
+
+#version 100
+precision mediump float;
+varying vec2 TexCoord;
+varying vec3 Color;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+void main()
+{
+    gl_FragColor = mix(texture2D(texture1, TexCoord), texture2D(texture2, TexCoord), 0.2);// * vec4(Color, 1.0);
+}
