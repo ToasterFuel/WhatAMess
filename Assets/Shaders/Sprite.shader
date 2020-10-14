@@ -21,11 +21,11 @@ in vec2 TexCoords;
 out vec4 color;
 
 uniform sampler2D image;
-uniform vec3 spriteColor;
+uniform vec4 spriteColor;
 
 void main()
 {
-    color = texture(image, TexCoords);
+    color = texture(image, TexCoords) * spriteColor;
     //color = vec4(TexCoords.x, TexCoords.y, 0.0f, 1.0f);
 }
 

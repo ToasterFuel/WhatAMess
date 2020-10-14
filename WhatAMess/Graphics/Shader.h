@@ -10,14 +10,16 @@ class Shader
 {
 public:
     Shader();
-    void Use();
+    void Use() const;
     void Compile(ShaderData& shaderData);
-    void SetFloat(const char *name, float value) const;
-    void SetInteger(const char *name, int value) const;
-    void SetVector2f(const char *name, const glm::vec2 value) const;
-    void SetVector3f(const char *name, const glm::vec3 value) const;
-    void SetVector4f(const char *name, const glm::vec4 value) const;
-    void SetMatrix4(const char *name, const glm::mat4 matrix) const;
+
+    int GetUniformLocation(const char* name) const;
+    void SetFloat(const char* name, float value) const;
+    void SetInteger(const char* name, int value) const;
+    void SetVector2f(const char* name, const glm::vec2 value) const;
+    void SetVector3f(const char* name, const glm::vec3 value) const;
+    void SetVector4f(const char* name, const glm::vec4 value) const;
+    void SetMatrix4(const char* name, const glm::mat4 matrix) const;
 
 private:
     unsigned int id;

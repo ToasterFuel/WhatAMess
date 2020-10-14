@@ -181,6 +181,7 @@ int main()
         return -1;
     }
     testShader.Compile(shaderData);
+    testShader.SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     Sprite testSprite(testShader, testTexture);
     Sprite testSprite2(testShader, testTexture);
     testSprite2.position += Vector3(4, -5);

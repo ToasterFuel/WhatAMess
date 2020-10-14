@@ -1,14 +1,20 @@
 #include "Shader.h"
 
+#include <string.h>
 #include <iostream>
-#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#ifdef OPEN_GL_BUILD
+#include <glad/glad.h>
+#elif WEB_GL_BUILD
+#define GL_GLEXT_PROTOTYPES 1
+#include <SDL_opengles2.h>
+#endif
 
 Shader::Shader()
 {
 }
 
-void Shader::Use()
+void Shader::Use() const
 {
     glUseProgram(id);
 }
@@ -39,44 +45,49 @@ void Shader::Compile(ShaderData& shaderData)
     glDeleteShader(fragShaderId);
 }
 
+int Shader::GetUniformLocation(const char* name) const
+{
+    return glGetUniformLocation(id, name);
+}
+
 void Shader::SetFloat(const char *name, float value) const
 {
-    glUniform1f(glGetUniformLocation(id, name), value);
+    glUniform1f(GetUniformLocation(name), value);
 }
 
 void Shader::SetInteger(const char *name, int value) const
 {
-    glUniform1i(glGetUniformLocation(id, name), value);
+    glUniform1i(GetUniformLocation(name), value);
 }
 
 void Shader::SetVector2f(const char *name, const glm::vec2 value) const
 {
-    glUniform2f(glGetUniformLocation(id, name), value.x, value.y);
+    glUniform2f(GetUniformLocation(name), value.x, value.y);
 }
 
 void Shader::SetVector3f(const char *name, const glm::vec3 value) const
 {
-    glUniform3f(glGetUniformLocation(id, name), value.x, value.y, value.z);
+    glUniform3f(GetUniformLocation(name), value.x, value.y, value.z);
 }
 
 void Shader::SetVector4f(const char *name, const glm::vec4 value) const
 {
-    glUniform4f(glGetUniformLocation(id, name), value.x, value.y, value.z, value.w);
+    glUniform4f(GetUniformLocation(name), value.x, value.y, value.z, value.w);
 }
 
 void Shader::SetMatrix4(const char *name, const glm::mat4 matrix) const
 {
-    glUniformMatrix4fv(glGetUniformLocation(id, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix4fv(GetUniformLocation(name), 1, false, glm::value_ptr(matrix));
 }
 
 void Shader::CheckCompileErrors(unsigned int object, const char *type)
 {
     int success;
     char infoLog[1024];
-    if (type != "PROGRAM")
+    if(strcmp(type, "PROGRAM") == 0)
     {
         glGetShaderiv(object, GL_COMPILE_STATUS, &success);
-        if (!success)
+        if(!success)
         {
             glGetShaderInfoLog(object, 1024, NULL, infoLog);
             std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
@@ -87,7 +98,7 @@ void Shader::CheckCompileErrors(unsigned int object, const char *type)
     else
     {
         glGetProgramiv(object, GL_LINK_STATUS, &success);
-        if (!success)
+        if(!success)
         {
             glGetProgramInfoLog(object, 1024, NULL, infoLog);
             std::cout << "| ERROR::Shader: Link-time error: Type: " << type << "\n"

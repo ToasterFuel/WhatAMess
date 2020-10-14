@@ -31,6 +31,7 @@
     <ClCompile Include="Input\WebGL\WebGL_Input.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Utility\Color.cpp" />
     <ClCompile Include="Utility\ShaderData.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClInclude Include="Input\WebGL\WebGL_Input.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Shader_s.h" />
+    <ClInclude Include="Utility\Color.h" />
     <ClInclude Include="Utility\ShaderData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

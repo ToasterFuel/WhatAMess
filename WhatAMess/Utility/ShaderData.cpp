@@ -18,7 +18,7 @@ const char* ShaderData::GetVertexShader() const
 #ifdef OPEN_GL_BUILD
     return openVertexShader.c_str();
 #elif WEB_GL_BUILD
-    return &webVertexShader.c_str();
+    return webVertexShader.c_str();
 #endif
 }
 
@@ -27,7 +27,7 @@ const char* ShaderData::GetFragmentShader() const
 #ifdef OPEN_GL_BUILD
     return openFragmentShader.c_str();
 #elif WEB_GL_BUILD
-    return &webFragmentShader.c_str();
+    return webFragmentShader.c_str();
 #endif
 }
 

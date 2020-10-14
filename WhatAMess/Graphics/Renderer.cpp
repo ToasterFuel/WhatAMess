@@ -1,6 +1,13 @@
 #include "Renderer.h"
 
+#ifdef OPEN_GL_BUILD
+#include <glad/glad.h>
+#elif WEB_GL_BUILD
+#define GL_GLEXT_PROTOTYPES 1
+#include <SDL_opengles2.h>
+#endif
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 void Renderer::SyncCameraViewProjection(const Camera &camera)
 {
@@ -10,8 +17,7 @@ void Renderer::SyncCameraViewProjection(const Camera &camera)
 
 void Renderer::DrawSprite(const Sprite &sprite) const
 {
-    sprite.shader.Use();
-
+    sprite.SetShaderData();
     glm::mat4 identity = glm::mat4(1.0f);
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, sprite.position.ToGraphicsRepresentation());
@@ -21,12 +27,7 @@ void Renderer::DrawSprite(const Sprite &sprite) const
 
     sprite.shader.SetMatrix4("mvp", cameraProjection * cameraView * model);
 
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, texture1);
-    glActiveTexture(GL_TEXTURE0);
-    sprite.texture.Bind();
-
     glBindVertexArray(sprite.quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
+    //glBindVertexArray(0);
 }
