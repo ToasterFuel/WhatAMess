@@ -57,6 +57,12 @@
     <ClCompile Include="Utility\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Timing\Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timing\OpenGL\OpenGL_Time.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\Input.h">
@@ -102,6 +108,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timing\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timing\OpenGL\OpenGL_Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,7 @@
 #elif WEB_GL_BUILD
 #define GL_GLEXT_PROTOTYPES 1
 #include <SDL_opengles2.h>
+#define glBindVertexArray glBindVertexArrayOES
 #endif
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
