@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\OpenGL\OpenGL_Game.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\OpenGL\OpenGL_Window.cpp" />
@@ -37,6 +39,9 @@
     <ClCompile Include="Utility\ShaderData.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\OpenGL\OpenGL_Game.h" />
+    <ClInclude Include="Game\WebGL\WebGL_Game.h" />
     <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\OpenGL\OpenGL_Window.h" />
     <ClInclude Include="Graphics\Renderer.h" />

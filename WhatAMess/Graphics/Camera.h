@@ -13,10 +13,17 @@ public:
     float nearClip;
     float farClip;
 
-    Camera(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip);
+    Camera();
+    void Init(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip);
     glm::mat4 GetProjectionMatrix() const;
     glm::mat4 GetViewMatrix() const;
     void UpdateCameraVectors();
+
+    static Camera& Main()
+    {
+        static Camera main;
+        return main;
+    }
 
 private:
     //TODO: when updating the rotation, make sure UpdateCameraVectors() is called

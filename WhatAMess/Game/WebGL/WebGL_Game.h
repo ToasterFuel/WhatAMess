@@ -2,9 +2,10 @@
 #define __WEB_GL_GAME__
 class WebGL_Game
 {
+public:
     WebGL_Game();
-    void Init();
-    void Run();
+    bool Init();
+    bool Run();
     void CleanUp();
 };
 #endif
