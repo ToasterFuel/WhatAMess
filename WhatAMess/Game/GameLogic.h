@@ -6,7 +6,7 @@ class GameLogic
 public:
     GameLogic();
     bool Init();
-    bool Update();
+    void Update();
     void CleanUp();
 };
 

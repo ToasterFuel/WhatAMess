@@ -12,8 +12,10 @@
 
 void processInput(Sprite &sprite);
 
-Sprite testSprite;
-Sprite testSprite2;
+Sprite* testSprite;
+Sprite* testSprite2;
+Texture2d* testTexture;
+Shader* testShader;
 
 GameLogic::GameLogic()
 {
@@ -22,35 +24,36 @@ GameLogic::GameLogic()
 bool GameLogic::Init()
 {
     Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
+    testTexture = new Texture2d();
 
-    Texture2d testTexture;
     int width, height, nrChannels;
     unsigned char *data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    testTexture.Generate(width, height, nrChannels, data);
+    testTexture->Generate(width, height, nrChannels, data);
     stbi_image_free(data);
 
-    Shader testShader;
     ShaderData shaderData;
     if(!shaderData.LoadFromFile("Assets/Shaders/sprite.shader"))
     {
         std::cout << "Failed to load shader.\n";
         return false;
     }
-    testShader.Compile(shaderData);
-    testShader.SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    //A(const A&) { std::cerr << "Copy constructor" << std::endl; }
-    testSprite = Sprite(testShader, testTexture);
-    testSprite2 = Sprite(testShader, testTexture);
-    testSprite2.position += Vector3(4, -5);
+    testShader = new Shader();
+    testShader->Compile(shaderData);
+    testShader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    testSprite = new Sprite(*testShader, *testTexture);
+    testSprite2 = new Sprite(*testShader, *testTexture);
+    testSprite2->position += Vector3(4, -5);
+
+    return true;
 }
 
-bool GameLogic::Update()
+void GameLogic::Update()
 {
-    processInput(testSprite);
+    processInput(*testSprite);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
-    Renderer::Instance().DrawSprite(testSprite);
-    Renderer::Instance().DrawSprite(testSprite2);
+    Renderer::Instance().DrawSprite(*testSprite);
+    Renderer::Instance().DrawSprite(*testSprite2);
 }
 
 void GameLogic::CleanUp()

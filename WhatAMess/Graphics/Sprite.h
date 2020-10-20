@@ -10,8 +10,6 @@ class Sprite
 {
 public:
     Sprite(Shader& shader, Texture2d& texture, Color color = Color(), Vector3 position = Vector3(), Vector3 scale = Vector3(1.0f, 1.0f, 1.0f), float rotation = 0.0f);
-    Sprite(Sprite&& other);
-    Sprite();
     ~Sprite();
     void SetShaderData() const;
 
