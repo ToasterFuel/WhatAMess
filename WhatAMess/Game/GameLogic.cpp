@@ -38,7 +38,6 @@ bool GameLogic::Init()
     }
     testShader.Compile(shaderData);
     testShader.SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    Sprite needs to have a copy constructor to do this!
     //A(const A&) { std::cerr << "Copy constructor" << std::endl; }
     testSprite = Sprite(testShader, testTexture);
     testSprite2 = Sprite(testShader, testTexture);

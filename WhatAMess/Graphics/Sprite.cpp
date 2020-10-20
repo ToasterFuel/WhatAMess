@@ -11,6 +11,10 @@
 #define glDeleteVertexArrays glDeleteVertexArraysOES
 #endif
 
+Sprite::Sprite(): shader(nullptr), texture(nullptr)
+{
+}
+
 Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, Vector3 position, Vector3 scale, float rotation) :
     shader(shader), texture(texture), color(color), position(position), rotation(rotation), scale(scale)
 {
@@ -38,6 +42,11 @@ Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, Vector3 position
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+Sprite::Sprite(Sprite&& other): shader(other.shader), texture(other.texture), quadVAO(other.quadVAO),
+        color(other.color), position(other.position), scale(other.scale), rotation(other.rotation)
+{
 }
 
 void Sprite::SetShaderData() const
