@@ -5,6 +5,7 @@
 #include "../../Graphics/Camera.h"
 #include "../../Timing/Time.h"
 
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 OpenGL_Game::OpenGL_Game(): gameLogic()

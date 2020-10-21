@@ -37,6 +37,9 @@
     <ClCompile Include="Timing\OpenGL\OpenGL_Time.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
     <ClCompile Include="Utility\Color.cpp" />
+    <ClCompile Include="Utility\Image.cpp" />
+    <ClCompile Include="Utility\OpenGL\OpenGL_ResourceManager.cpp" />
+    <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Utility\ShaderData.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +63,9 @@
     <ClInclude Include="Timing\OpenGL\OpenGL_Time.h" />
     <ClInclude Include="Timing\Time.h" />
     <ClInclude Include="Utility\Color.h" />
+    <ClInclude Include="Utility\Image.h" />
+    <ClInclude Include="Utility\OpenGL\OpenGL_ResourceManager.h" />
+    <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\ShaderData.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

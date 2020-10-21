@@ -6,9 +6,7 @@
 #include "../Input/Input.h"
 #include "../Graphics/Window.h"
 #include "../Timing/Time.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include "../Utility/ResourceManager.h"
 
 void processInput(Sprite &sprite);
 
@@ -26,10 +24,9 @@ bool GameLogic::Init()
     Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
     testTexture = new Texture2d();
 
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load("Assets/Textures/awesomeface.png", &width, &height, &nrChannels, 0);
-    testTexture->Generate(width, height, nrChannels, data);
-    stbi_image_free(data);
+    Image faceImage = ResourceManager::Instance().GetImage("Assets/Textures/awesomeface.png");
+    testTexture->Generate(faceImage.width, faceImage.height, faceImage.bitsPerPixel, faceImage.data);
+    ResourceManager::Instance().FreeImage(faceImage);
 
     ShaderData shaderData;
     if(!shaderData.LoadFromFile("Assets/Shaders/sprite.shader"))
