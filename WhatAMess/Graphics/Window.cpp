@@ -18,6 +18,10 @@ void Window::Close()
 {
     actualWindow.Close();
 }
+void Window::Clear()
+{
+    actualWindow.Clear();
+}
 
 void Window::CleanUp()
 {

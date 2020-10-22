@@ -16,6 +16,7 @@ public:
     bool Init(int width, int height, const char *windowTitle);
     bool IsRunning();
     void Close();
+    void Clear();
     void CleanUp();
     void SwapBuffers();
     void PullEvents();

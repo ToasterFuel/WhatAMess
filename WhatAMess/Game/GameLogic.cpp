@@ -22,6 +22,7 @@ GameLogic::GameLogic()
 bool GameLogic::Init()
 {
     Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
+    /*
     testTexture = new Texture2d();
 
     Image faceImage = ResourceManager::Instance().GetImage("Assets/Textures/awesomeface.png");
@@ -40,17 +41,20 @@ bool GameLogic::Init()
     testSprite = new Sprite(*testShader, *testTexture);
     testSprite2 = new Sprite(*testShader, *testTexture);
     testSprite2->position += Vector3(4, -5);
+    */
 
     return true;
 }
 
 void GameLogic::Update()
 {
+    /*
     processInput(*testSprite);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
     Renderer::Instance().DrawSprite(*testSprite);
     Renderer::Instance().DrawSprite(*testSprite2);
+    */
 }
 
 void GameLogic::CleanUp()

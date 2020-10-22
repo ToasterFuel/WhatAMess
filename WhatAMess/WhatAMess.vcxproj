@@ -22,6 +22,7 @@
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameLogic.cpp" />
     <ClCompile Include="Game\OpenGL\OpenGL_Game.cpp" />
+    <ClCompile Include="Game\WebGL\WebGL_Game.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Graphics\Camera.cpp" />
     <ClCompile Include="Graphics\OpenGL\OpenGL_Window.cpp" />
