@@ -7,7 +7,7 @@ Image OpenGL_ResourceManager::GetImage(const char* path)
     int width, height, nrChannels;
     unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
 
-    return Image(data, width, height, nrChannels);
+    return Image(data, width, height, nrChannels, data);
 }
 
 std::string OpenGL_ResourceManager::GetFile(const char* path)

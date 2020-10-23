@@ -42,6 +42,7 @@
     <ClCompile Include="Utility\OpenGL\OpenGL_ResourceManager.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Utility\ShaderData.cpp" />
+    <ClCompile Include="Utility\WebGL\WebGL_ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="Utility\OpenGL\OpenGL_ResourceManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\ShaderData.h" />
+    <ClInclude Include="Utility\WebGL\WebGL_ResourceManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
