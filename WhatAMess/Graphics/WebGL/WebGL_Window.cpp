@@ -1,5 +1,6 @@
 #ifdef WEB_GL_BUILD
 #include "WebGL_Window.h"
+#include "../../Input/WebGL/WebGL_Input.h"
 
 #define GL_GLEXT_PROTOTYPES 1
 #include <SDL_opengles2.h>
@@ -56,9 +57,7 @@ void WebGL_Window::PullEvents()
 
 bool WebGL_Window::IsKeyPressed(KeyCode keyCode)
 {
-    //TODO: implement
-    //return glfwGetKey(window, keyCode) == GLFW_PRESS;
-    return false;
+    return WebGL_Input::IsKeyPressed(keyCode);
 }
 
 int WebGL_Window::GetWidth()

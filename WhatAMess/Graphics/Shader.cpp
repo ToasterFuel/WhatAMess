@@ -80,16 +80,16 @@ void Shader::SetMatrix4(const char *name, const glm::mat4 matrix) const
     glUniformMatrix4fv(GetUniformLocation(name), 1, false, glm::value_ptr(matrix));
 }
 
-void Shader::CheckCompileErrors(unsigned int object, const char *type)
+void Shader::CheckCompileErrors(unsigned int id, const char *type)
 {
     int success;
     char infoLog[1024];
-    if(strcmp(type, "PROGRAM") == 0)
+    if(strcmp(type, "PROGRAM") != 0)
     {
-        glGetShaderiv(object, GL_COMPILE_STATUS, &success);
+        glGetShaderiv(id, GL_COMPILE_STATUS, &success);
         if(!success)
         {
-            glGetShaderInfoLog(object, 1024, NULL, infoLog);
+            glGetShaderInfoLog(id, 1024, NULL, infoLog);
             std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
                 << infoLog << "\n -- --------------------------------------------------- -- "
                 << std::endl;
@@ -97,10 +97,10 @@ void Shader::CheckCompileErrors(unsigned int object, const char *type)
     }
     else
     {
-        glGetProgramiv(object, GL_LINK_STATUS, &success);
+        glGetProgramiv(id, GL_LINK_STATUS, &success);
         if(!success)
         {
-            glGetProgramInfoLog(object, 1024, NULL, infoLog);
+            glGetProgramInfoLog(id, 1024, NULL, infoLog);
             std::cout << "| ERROR::Shader: Link-time error: Type: " << type << "\n"
                 << infoLog << "\n -- --------------------------------------------------- -- "
                 << std::endl;

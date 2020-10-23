@@ -26,33 +26,32 @@ uniform vec4 spriteColor;
 void main()
 {
     color = texture(image, TexCoords) * spriteColor;
-    //color = vec4(TexCoords.x, TexCoords.y, 0.0f, 1.0f);
 }
 
 ==========
 WebGL
 ==========
-attribute vec3 aPos;
-attribute vec2 aTexCoord;
-uniform vec3 aColor;
-varying vec3 Color;
-varying vec2 TexCoord;
+attribute vec4 vertex; // <vec2 position, vec2 texCoords>
+uniform mat4 mvp;
+
+varying vec2 TexCoords;
+
 void main()
 {
-    gl_Position = vec4(aPos, 1.0);
-    Color = aColor;
-    TexCoord = aTexCoord;
+    TexCoords = vertex.zw;
+    gl_Position = mvp * vec4(vertex.xy, 0.0, 1.0);
 }
 
 ++++++++++
 
 #version 100
 precision mediump float;
-varying vec2 TexCoord;
-varying vec3 Color;
-uniform sampler2D texture1;
-uniform sampler2D texture2;
+varying vec2 TexCoords;
+
+uniform sampler2D image;
+uniform vec4 spriteColor;
+
 void main()
 {
-    gl_FragColor = mix(texture2D(texture1, TexCoord), texture2D(texture2, TexCoord), 0.2);// * vec4(Color, 1.0);
+    gl_FragColor = texture2D(image, TexCoords) * spriteColor;
 }

@@ -62,7 +62,10 @@ bool ShaderData::LoadFromFile(const char* path)
     std::string line;
     std::ifstream file(path);
     if(!file.is_open())
+    {
+        std::cout << "Could not open file: " << path << "\n";
         return false;
+    }
 
     std::stringstream ss;
     ShaderType shaderType = SHADER_TYPE_UNKNOWN;

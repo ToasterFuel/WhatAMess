@@ -6,7 +6,6 @@
 #include <emscripten/html5.h>
 #include <map>
 #include <string.h>
-#include <iostream>
 
 #include "../KeyCode.h"
 
@@ -44,7 +43,6 @@ public:
     static EM_BOOL KeyPressed(int eventType, const EmscriptenKeyboardEvent* event, void *userData)
     {
         KeyCode keyCode = GetKeyCodeFromString(event->code);
-	std::cout << "key: " << event->code << "\n";
         if(keyCode == KEY_INVALID)
             return false;
         keyStates[keyCode].isPressed = true;
