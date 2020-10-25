@@ -362,3 +362,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+WhatAMess/Assets/
+index.js
+index.data
+index.wasm
+WhatAMessBuilder.exe
