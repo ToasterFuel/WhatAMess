@@ -14,7 +14,7 @@ OpenGL_Game::OpenGL_Game(): gameLogic()
 
 bool OpenGL_Game::Init()
 {
-    if(!Window::Instance().Init(800, 600, "What A Mess"))
+    if(!Window::Instance().Init(DEFAULT_WIDTH, DEFAULT_HEIGHT, "What A Mess"))
     {
         Window::Instance().CleanUp();
         return false;

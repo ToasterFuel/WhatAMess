@@ -9,6 +9,9 @@
 #include "WebGL/WebGL_Window.h"
 #endif
 
+#define DEFAULT_WIDTH 1066
+#define DEFAULT_HEIGHT 600
+
 class Window
 {
 public:

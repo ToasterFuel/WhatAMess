@@ -21,8 +21,8 @@ void Camera::Init(Vector3 position, Vector3 rotation, float zoom, float nearClip
 glm::mat4 Camera::GetProjectionMatrix() const
 {
     //glm::mat4 projection = glm::perspective(glm::radians(zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    float halfWidth = Window::Instance().GetWidth() / (2 * zoom);
-    float halfHeight = Window::Instance().GetHeight() / (2 * zoom);
+    float halfWidth = Window::Instance().GetWidth() * zoom;
+    float halfHeight = Window::Instance().GetHeight() * zoom;
     return glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, nearClip, farClip);
 }
 

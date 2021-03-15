@@ -30,7 +30,7 @@ void MainLoop()
 bool WebGL_Game::Init()
 {
     instance = this;
-    Window::Instance().Init(800, 600, "");
+    Window::Instance().Init(DEFAULT_WIDTH, DEFAULT_HEIGHT, "");
     gameLogic.Init();
 
     emscripten_set_keydown_callback("#canvas", nullptr, true, WebGL_Input::KeyPressed);

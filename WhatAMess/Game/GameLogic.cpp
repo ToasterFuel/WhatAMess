@@ -8,11 +8,15 @@
 #include "../Timing/Time.h"
 #include "../Utility/ResourceManager.h"
 
+#include <iostream>
+
 void processInput(Sprite &sprite);
 
 Sprite* testSprite;
 Sprite* testSprite2;
+Sprite* background;
 Texture2d* testTexture;
+Texture2d* backgroundTexture;
 Shader* testShader;
 
 GameLogic::GameLogic()
@@ -21,8 +25,13 @@ GameLogic::GameLogic()
 
 bool GameLogic::Init()
 {
-    Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 100, .1f, 100);
+    Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 1, .1f, 100);
     testTexture = new Texture2d();
+
+    backgroundTexture = new Texture2d();
+    Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/background.png");
+    backgroundTexture->Generate(backgroundImage);
+    ResourceManager::Instance().FreeImage(backgroundImage);
 
     Image faceImage = ResourceManager::Instance().GetImage("Assets/Textures/awesomeface.png");
     testTexture->Generate(faceImage.width, faceImage.height, faceImage.bitsPerPixel, faceImage.data);
@@ -40,7 +49,7 @@ bool GameLogic::Init()
     testSprite = new Sprite(*testShader, *testTexture);
     testSprite2 = new Sprite(*testShader, *testTexture);
     testSprite2->position += Vector3(4, -5);
-
+    background = new Sprite(*testShader, *backgroundTexture);
     return true;
 }
 
@@ -49,8 +58,10 @@ void GameLogic::Update()
     processInput(*testSprite);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
+    Renderer::Instance().DrawSprite(*background);
     Renderer::Instance().DrawSprite(*testSprite);
     Renderer::Instance().DrawSprite(*testSprite2);
+
 }
 
 void GameLogic::CleanUp()
@@ -85,6 +96,6 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_LEFT))
         spinMultiplier -= 1;
 
-    sprite.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
-    Camera::Main().zoom += zoomMultiplier * 100 * Time::Instance().DeltaTime();
+    sprite.rotation += spinMultiplier * Time::Instance().DeltaTime();
+    Camera::Main().zoom += zoomMultiplier * Time::Instance().DeltaTime();
 }

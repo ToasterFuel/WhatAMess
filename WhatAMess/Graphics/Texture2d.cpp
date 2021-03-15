@@ -15,6 +15,22 @@ Texture2d::Texture2d() : width(0), height(0),
 {
 }
 
+unsigned int Texture2d::GetWidth()
+{
+    std::cout << "getting width: " << width << "\n";
+    return width;
+}
+unsigned int Texture2d::GetHeight()
+{
+    std::cout << "getting height: " << height << "\n";
+    return height;
+}
+
+void Texture2d::Generate(Image image)
+{
+    Generate(image.width, image.height, image.bitsPerPixel, image.data);
+}
+
 void Texture2d::Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data)
 {
     if(numberOfBitsPerPixel == 3)

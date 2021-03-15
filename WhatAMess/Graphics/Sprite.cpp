@@ -14,6 +14,7 @@
 Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, Vector3 position, Vector3 scale, float rotation) :
     shader(shader), texture(texture), color(color), position(position), rotation(rotation), scale(scale)
 {
+    this->scale = Vector3(texture.GetWidth(), texture.GetHeight(), 1);
     unsigned int VBO;
     //TODO make this 3d positions?
     float vertices[] = {
