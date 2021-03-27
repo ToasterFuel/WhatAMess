@@ -29,7 +29,9 @@ bool GameLogic::Init()
     testTexture = new Texture2d();
 
     backgroundTexture = new Texture2d();
-    Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/background.png");
+    1) This returns garbage data if the file doesn't exist :(
+    2) The pixel/zoom level doesn't line up still :(
+    Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/RoomBackground.png");
     backgroundTexture->Generate(backgroundImage);
     ResourceManager::Instance().FreeImage(backgroundImage);
 
@@ -50,6 +52,7 @@ bool GameLogic::Init()
     testSprite2 = new Sprite(*testShader, *testTexture);
     testSprite2->position += Vector3(4, -5);
     background = new Sprite(*testShader, *backgroundTexture);
+    std::cout << "Initialized!!!\n";
     return true;
 }
 
