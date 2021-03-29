@@ -7,16 +7,26 @@
 #include <iostream>
 #include <memory>
 
-Image WebGL_ResourceManager::GetImage(const char* path)
+Image WebGL_ResourceManager::GetImage(const char* path, int* error)
 {
+    if(!FileExists(path))
+    {
+        *error = RESOURCE_DOES_NOT_EXIST;
+        return Image(nullptr, 0, 0, 0, nullptr);
+    }
     SDL_Surface *image = IMG_Load(path);
     InvertImage(image->w * image->format->BytesPerPixel, image->h, (char *)image->pixels);
 
     return Image((unsigned char*)image->pixels, image->w, image->h, image->format->BytesPerPixel, (void*)image);
 }
 
-std::string WebGL_ResourceManager::GetFile(const char* path)
+std::string WebGL_ResourceManager::GetFile(const char* path, int* error)
 {
+    if(!FileExists(path))
+    {
+        *error = RESOURCE_DOES_NOT_EXIST;
+        return std::string();
+    }
     return std::string();
 }
 
@@ -57,4 +67,19 @@ int WebGL_ResourceManager::InvertImage(int width, int height, void *image_pixels
     }
     return 0;
 }
+
+bool WebGL_ResourceManager::FileExists(const char* path)
+{
+    if (path == nullptr)
+        return false;
+
+    if (FILE* file = fopen(path, "r"))
+    {
+        fclose(file);
+        return true;
+    }
+
+    return false;
+}
+
 #endif

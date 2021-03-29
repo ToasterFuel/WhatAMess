@@ -20,7 +20,11 @@ bool OpenGL_Game::Init()
         return false;
     }
     stbi_set_flip_vertically_on_load(true);
-    gameLogic.Init();
+    if(!gameLogic.Init())
+    {
+        Window::Instance().CleanUp();
+        return false;
+    }
     return true;
 }
 

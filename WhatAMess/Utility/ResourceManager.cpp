@@ -4,14 +4,14 @@ ResourceManager::ResourceManager(): actualResourceManager()
 {
 }
 
-Image ResourceManager::GetImage(const char* path)
+Image ResourceManager::GetImage(const char* path, int* error)
 {
-    return actualResourceManager.GetImage(path);
+    return actualResourceManager.GetImage(path, error);
 }
 
-std::string ResourceManager::GetFile(const char* path)
+std::string ResourceManager::GetFile(const char* path, int* error)
 {
-    return actualResourceManager.GetFile(path);
+    return actualResourceManager.GetFile(path, error);
 }
 
 void ResourceManager::FreeImage(Image image)

@@ -14,8 +14,8 @@ class ResourceManager
 {
 public:
     ResourceManager();
-    Image GetImage(const char* path);
-    std::string GetFile(const char* path);
+    Image GetImage(const char* path, int* error);
+    std::string GetFile(const char* path, int* error);
     void FreeImage(Image image);
 
     static ResourceManager& Instance()

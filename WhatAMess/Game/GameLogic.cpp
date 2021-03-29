@@ -29,13 +29,24 @@ bool GameLogic::Init()
     testTexture = new Texture2d();
 
     backgroundTexture = new Texture2d();
-    1) This returns garbage data if the file doesn't exist :(
-    2) The pixel/zoom level doesn't line up still :(
-    Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/RoomBackground.png");
+    //1) This returns garbage data if the file doesn't exist :(
+    //2) The pixel/zoom level doesn't line up still :(
+    int error = 0;
+    Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/RoomBackground.png", &error);
+    if(error != 0)
+    {
+        std::cout << "Failed to load background image\n";
+        return false;
+    }
     backgroundTexture->Generate(backgroundImage);
     ResourceManager::Instance().FreeImage(backgroundImage);
 
-    Image faceImage = ResourceManager::Instance().GetImage("Assets/Textures/awesomeface.png");
+    Image faceImage = ResourceManager::Instance().GetImage("Assets/Textures/awesomeface.png", &error);
+    if(error != 0)
+    {
+        std::cout << "Failed to load awesomeface image\n";
+        return false;
+    }
     testTexture->Generate(faceImage.width, faceImage.height, faceImage.bitsPerPixel, faceImage.data);
     ResourceManager::Instance().FreeImage(faceImage);
 
