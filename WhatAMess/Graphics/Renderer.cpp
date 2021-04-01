@@ -10,7 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-void Renderer::SyncCameraViewProjection(const Camera &camera)
+void Renderer::SyncCameraViewProjection(Camera &camera)
 {
     cameraView = camera.GetViewMatrix();
     cameraProjection = camera.GetProjectionMatrix();
@@ -26,7 +26,9 @@ void Renderer::DrawSprite(const Sprite &sprite) const
     model = glm::rotate(model, glm::radians(sprite.rotation), glm::vec3(0, 0, 1));
     model = glm::scale(model, sprite.scale.ToGraphicsRepresentation());
 
-    sprite.shader.SetMatrix4("mvp", cameraProjection * cameraView * model);
+    sprite.shader.SetMatrix4("model", model);
+    sprite.shader.SetMatrix4("view", cameraView);
+    sprite.shader.SetMatrix4("projection", cameraProjection);
 
     glBindVertexArray(sprite.quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);

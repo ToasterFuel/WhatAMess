@@ -13,7 +13,7 @@ public:
         return instance;
     }
 
-    void SyncCameraViewProjection(const Camera &camera);
+    void SyncCameraViewProjection(Camera &camera);
     void DrawSprite(const Sprite &sprite) const;
 
 private:

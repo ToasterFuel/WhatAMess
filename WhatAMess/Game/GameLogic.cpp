@@ -29,8 +29,6 @@ bool GameLogic::Init()
     testTexture = new Texture2d();
 
     backgroundTexture = new Texture2d();
-    //1) This returns garbage data if the file doesn't exist :(
-    //2) The pixel/zoom level doesn't line up still :(
     int error = 0;
     Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/RoomBackground.png", &error);
     if(error != 0)
@@ -69,7 +67,7 @@ bool GameLogic::Init()
 
 void GameLogic::Update()
 {
-    processInput(*testSprite);
+    processInput(*background);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
     Renderer::Instance().DrawSprite(*background);
@@ -98,18 +96,23 @@ void processInput(Sprite& sprite)
         moveDirection.x -= 1;
     sprite.position += moveDirection * 3 * Time::Instance().DeltaTime();
 
-    float zoomMultiplier = 0;
+    Vector3 cameraMoveDirection = Vector3();
     if(Input::IsKeyPressed(KEY_UP))
-        zoomMultiplier += 1;
+        cameraMoveDirection.y += 1;
     if(Input::IsKeyPressed(KEY_DOWN))
-        zoomMultiplier -= 1;
+        cameraMoveDirection.y -= 1;
+    if(Input::IsKeyPressed(KEY_LEFT))
+        cameraMoveDirection.x += 1;
+    if(Input::IsKeyPressed(KEY_RIGHT))
+        cameraMoveDirection.x -= 1;
 
     float spinMultiplier = 0;
-    if(Input::IsKeyPressed(KEY_RIGHT))
+    if(Input::IsKeyPressed(KEY_K))
         spinMultiplier += 1;
-    if(Input::IsKeyPressed(KEY_LEFT))
+    if(Input::IsKeyPressed(KEY_L))
         spinMultiplier -= 1;
 
-    sprite.rotation += spinMultiplier * Time::Instance().DeltaTime();
-    Camera::Main().zoom += zoomMultiplier * Time::Instance().DeltaTime();
+    Camera& camera = Camera::Main();
+    camera.rotation.z += spinMultiplier * 500 * Time::Instance().DeltaTime();
+    camera.position += cameraMoveDirection * 50 * Time::Instance().DeltaTime();
 }
