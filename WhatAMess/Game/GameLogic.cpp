@@ -67,7 +67,7 @@ bool GameLogic::Init()
 
 void GameLogic::Update()
 {
-    processInput(*background);
+    processInput(*testSprite);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
     Renderer::Instance().DrawSprite(*background);
@@ -94,7 +94,7 @@ void processInput(Sprite& sprite)
         moveDirection.x += 1;
     if(Input::IsKeyPressed(KEY_A))
         moveDirection.x -= 1;
-    sprite.position += moveDirection * 3 * Time::Instance().DeltaTime();
+    sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
 
     Vector3 cameraMoveDirection = Vector3();
     if(Input::IsKeyPressed(KEY_UP))
@@ -115,5 +115,4 @@ void processInput(Sprite& sprite)
     Camera& camera = Camera::Main();
     camera.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
     camera.position += cameraMoveDirection * 100 * Time::Instance().DeltaTime();
-    std::cout << "rotation: " << camera.rotation << "\n";
 }
