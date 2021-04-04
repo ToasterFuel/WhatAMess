@@ -39,9 +39,10 @@ void Camera::UpdateCameraVectors()
     front.x = cos(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
     front.y = sin(glm::radians(rotation.x));
     front.z = sin(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-    front = Vector3::Normalize(front);
-    std::cout << "front? " << front << " rotation: " << rotation.z << "\n";
 
+    front = Vector3::Normalize(front);
     right = Vector3::Normalize(Vector3::Cross(front, Vector3::UP));
     up = Vector3::Normalize(Vector3::Cross(right, front));
+
+    std::cout << "front: " << front << " right: " << right << " up: " << up << " rotation: " << rotation.z << "\n";
 }
