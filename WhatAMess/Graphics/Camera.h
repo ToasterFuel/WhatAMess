@@ -14,10 +14,9 @@ public:
     float farClip;
 
     Camera();
-    void Init(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip);
+    void Init(Vector3 position, float rotation, float zoom, float nearClip, float farClip);
     glm::mat4 GetProjectionMatrix() const;
     glm::mat4 GetViewMatrix();
-    void UpdateCameraVectors();
 
     static Camera& Main()
     {
@@ -25,12 +24,6 @@ public:
         return main;
     }
 
-    Vector3 rotation;
-private:
-    //TODO: when updating the rotation, make sure UpdateCameraVectors() is called
-    //Euler angles in degrees
-    Vector3 front;
-    Vector3 up;
-    Vector3 right;
+    float rotation;
 };
 #endif

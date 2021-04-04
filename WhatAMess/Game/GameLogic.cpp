@@ -25,7 +25,7 @@ GameLogic::GameLogic()
 
 bool GameLogic::Init()
 {
-    Camera::Main().Init(Vector3(0, 0, 3), Vector3(0, -90, 0), 1, .1f, 100);
+    Camera::Main().Init(Vector3(0, 0, 3), 0, 1, .1f, 100);
     testTexture = new Texture2d();
 
     backgroundTexture = new Texture2d();
@@ -102,9 +102,9 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_DOWN))
         cameraMoveDirection.y -= 1;
     if(Input::IsKeyPressed(KEY_LEFT))
-        cameraMoveDirection.x += 1;
-    if(Input::IsKeyPressed(KEY_RIGHT))
         cameraMoveDirection.x -= 1;
+    if(Input::IsKeyPressed(KEY_RIGHT))
+        cameraMoveDirection.x += 1;
 
     float spinMultiplier = 0;
     if(Input::IsKeyPressed(KEY_K))
@@ -113,6 +113,7 @@ void processInput(Sprite& sprite)
         spinMultiplier -= 1;
 
     Camera& camera = Camera::Main();
-    camera.rotation.z += spinMultiplier * 500 * Time::Instance().DeltaTime();
-    camera.position += cameraMoveDirection * 50 * Time::Instance().DeltaTime();
+    camera.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
+    camera.position += cameraMoveDirection * 100 * Time::Instance().DeltaTime();
+    std::cout << "rotation: " << camera.rotation << "\n";
 }

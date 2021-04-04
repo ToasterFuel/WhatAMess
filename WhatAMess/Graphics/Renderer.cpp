@@ -19,7 +19,6 @@ void Renderer::SyncCameraViewProjection(Camera &camera)
 void Renderer::DrawSprite(const Sprite &sprite) const
 {
     sprite.SetShaderData();
-    glm::mat4 identity = glm::mat4(1.0f);
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, sprite.position.ToGraphicsRepresentation());
     //Translate to center before rotating??

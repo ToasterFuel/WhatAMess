@@ -3,19 +3,17 @@
 #include "Camera.h"
 #include "Window.h"
 
-Camera::Camera(): position(Vector3()), rotation(Vector3()), zoom(1), nearClip(.1f), farClip(100.0f)
+Camera::Camera(): position(Vector3()), rotation(0), zoom(1), nearClip(.1f), farClip(100.0f)
 {
-    UpdateCameraVectors();
 }
 
-void Camera::Init(Vector3 position, Vector3 rotation, float zoom, float nearClip, float farClip)
+void Camera::Init(Vector3 position, float rotation, float zoom, float nearClip, float farClip)
 {
     this->position = position;
     this->rotation = rotation;
     this->zoom = zoom;
     this->nearClip = nearClip;
     this->farClip = farClip;
-    UpdateCameraVectors();
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const
@@ -28,21 +26,13 @@ glm::mat4 Camera::GetProjectionMatrix() const
 
 glm::mat4 Camera::GetViewMatrix()
 {
-    UpdateCameraVectors();
-    return glm::lookAt(position.ToGraphicsRepresentation(),
-        (position + front).ToGraphicsRepresentation(),
-        up.ToGraphicsRepresentation());
-}
+    glm::mat4 view(1.0f);
+    view = glm::lookAt(position.ToGraphicsRepresentation(),
+        (position + Vector3(0, 0, -1)).ToGraphicsRepresentation(),
+        Vector3::UP.ToGraphicsRepresentation());
+    view = glm::translate(view, glm::vec3(position.x, position.y, 0.0));
+    view = glm::rotate(view, glm::radians(rotation), glm::vec3(0.0, 0.0, 1.0));
+    view = glm::translate(view, glm::vec3(-position.x, -position.y, 0.0));
 
-void Camera::UpdateCameraVectors()
-{
-    front.x = cos(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-    front.y = sin(glm::radians(rotation.x));
-    front.z = sin(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-
-    front = Vector3::Normalize(front);
-    right = Vector3::Normalize(Vector3::Cross(front, Vector3::UP));
-    up = Vector3::Normalize(Vector3::Cross(right, front));
-
-    std::cout << "front: " << front << " right: " << right << " up: " << up << " rotation: " << rotation.z << "\n";
+    return view;
 }
