@@ -1,5 +1,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "../Utility/MathUtils.h"
 #include "Camera.h"
 #include "Window.h"
 
@@ -14,6 +15,24 @@ void Camera::Init(Vector3 position, float rotation, float zoom, float nearClip, 
     this->zoom = zoom;
     this->nearClip = nearClip;
     this->farClip = farClip;
+}
+
+glm::vec2 Camera::ScreenToWorldPosition(glm::vec2 screenPosition)
+{
+    //TODO do something with the zoom
+    screenPosition.x = MathUtils::Normalize(0, Window::Instance().GetWidth(), screenPosition.x) * 2 - 1;
+    screenPosition.y = MathUtils::Normalize(0, Window::Instance().GetHeight(), screenPosition.y) * 2 - 1;
+    screenPosition.x *= Window::Instance().GetWidth() * zoom / 2;
+    screenPosition.y *= -1 * Window::Instance().GetHeight() * zoom / 2;
+
+    glm::vec2 worldPosition;
+    float rotation = glm::radians(-Camera::Main().rotation);
+    worldPosition.x = screenPosition.x * glm::cos(rotation) - screenPosition.y * glm::sin(rotation);
+    worldPosition.y = screenPosition.x * glm::sin(rotation) + screenPosition.y * glm::cos(rotation);
+
+    worldPosition += glm::vec2(Camera::Main().position.x, Camera::Main().position.y);
+
+    return worldPosition;
 }
 
 glm::mat4 Camera::GetProjectionMatrix() const

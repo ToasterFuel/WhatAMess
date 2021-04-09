@@ -53,6 +53,16 @@ bool Window::IsKeyPressed(KeyCode keyCode)
     return actualWindow.IsKeyPressed(keyCode);
 }
 
+bool Window::IsMouseButtonPressed(MouseCode mouseCode)
+{
+    return actualWindow.IsMouseButtonPressed(mouseCode);
+}
+
+glm::vec2 Window::GetMouseScreenPosition()
+{
+    return actualWindow.GetMouseScreenPosition();
+}
+
 void Window::SetSize(const int width, const int height)
 {
     actualWindow.SetSize(width, height);

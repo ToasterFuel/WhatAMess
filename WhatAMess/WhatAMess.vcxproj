@@ -59,6 +59,7 @@
     <ClInclude Include="Graphics\Window.h" />
     <ClInclude Include="Input\Input.h" />
     <ClInclude Include="Input\KeyCode.h" />
+    <ClInclude Include="Input\MouseCode.h" />
     <ClInclude Include="Input\WebGL\WebGL_Input.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Shader_s.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Timing\Time.h" />
     <ClInclude Include="Utility\Color.h" />
     <ClInclude Include="Utility\Image.h" />
+    <ClInclude Include="Utility\MathUtils.h" />
     <ClInclude Include="Utility\OpenGL\OpenGL_ResourceManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\ShaderData.h" />

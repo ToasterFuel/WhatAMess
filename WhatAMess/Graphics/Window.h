@@ -2,6 +2,8 @@
 #define __WINDOW_H__
 
 #include "../Input/KeyCode.h"
+#include "../Input/MouseCode.h"
+#include <glm/glm.hpp>
 
 #ifdef OPEN_GL_BUILD
 #include "OpenGL/OpenGL_Window.h"
@@ -24,6 +26,8 @@ public:
     void SwapBuffers();
     void PullEvents();
     bool IsKeyPressed(KeyCode keyCode);
+    bool IsMouseButtonPressed(MouseCode mouseCode);
+    glm::vec2 GetMouseScreenPosition();
     int GetWidth();
     int GetHeight();
     /*

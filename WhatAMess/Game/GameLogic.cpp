@@ -73,7 +73,11 @@ void GameLogic::Update()
     Renderer::Instance().DrawSprite(*background);
     Renderer::Instance().DrawSprite(*testSprite);
     Renderer::Instance().DrawSprite(*testSprite2);
-
+    if(Input::IsMouseButtonPressed(MOUSE_LEFT))
+    {
+        glm::vec2 worldPosition = Camera::Main().ScreenToWorldPosition(Input::GetMouseScreenPosition());
+        std::cout << "zoom: " << Camera::Main().zoom << " World: (" << worldPosition.x << ", " << worldPosition.y << ")\n";
+    }
 }
 
 void GameLogic::CleanUp()
@@ -94,7 +98,6 @@ void processInput(Sprite& sprite)
         moveDirection.x += 1;
     if(Input::IsKeyPressed(KEY_A))
         moveDirection.x -= 1;
-    sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
 
     Vector3 cameraMoveDirection = Vector3();
     if(Input::IsKeyPressed(KEY_UP))
@@ -112,7 +115,15 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_L))
         spinMultiplier -= 1;
 
+    float zoomMultiplier = 0;
+    if(Input::IsKeyPressed(KEY_I))
+        zoomMultiplier += 1;
+    if(Input::IsKeyPressed(KEY_O))
+        zoomMultiplier -= 1;
+
+    sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
     Camera& camera = Camera::Main();
     camera.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
     camera.position += cameraMoveDirection * 100 * Time::Instance().DeltaTime();
+    camera.zoom += zoomMultiplier * Time::Instance().DeltaTime();
 }

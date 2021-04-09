@@ -89,6 +89,20 @@ bool OpenGL_Window::IsKeyPressed(KeyCode keyCode)
     return glfwGetKey(window, keyCode) == GLFW_PRESS;
 }
 
+bool OpenGL_Window::IsMouseButtonPressed(MouseCode mouseCode)
+{
+    return glfwGetMouseButton(window, mouseCode) == GLFW_PRESS;
+}
+
+glm::vec2 OpenGL_Window::GetMouseScreenPosition()
+{
+    double x = 0;
+    double y = 0;
+    glfwGetCursorPos(window, &x, &y);
+
+    return glm::vec2((float)x, (float)y);
+}
+
 int OpenGL_Window::GetWidth()
 {
     return width;
