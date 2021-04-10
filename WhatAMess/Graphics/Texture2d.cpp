@@ -17,12 +17,10 @@ Texture2d::Texture2d() : width(0), height(0),
 
 unsigned int Texture2d::GetWidth()
 {
-    std::cout << "getting width: " << width << "\n";
     return width;
 }
 unsigned int Texture2d::GetHeight()
 {
-    std::cout << "getting height: " << height << "\n";
     return height;
 }
 

@@ -9,6 +9,7 @@
 #include "../Utility/ResourceManager.h"
 
 #include <iostream>
+#include <vector>
 
 void processInput(Sprite &sprite);
 
@@ -19,6 +20,11 @@ Texture2d* testTexture;
 Texture2d* backgroundTexture;
 Shader* testShader;
 
+Texture2d* ringTexture;
+Sprite* ringSprite;
+
+std::vector<Sprite*> ringHolder;
+
 GameLogic::GameLogic()
 {
 }
@@ -28,8 +34,18 @@ bool GameLogic::Init()
     Camera::Main().Init(Vector3(0, 0, 3), 0, 1, .1f, 100);
     testTexture = new Texture2d();
 
-    backgroundTexture = new Texture2d();
     int error = 0;
+    ringTexture = new Texture2d();
+    Image ringImage = ResourceManager::Instance().GetImage("Assets/Textures/Ring.png", &error);
+    if(error != 0)
+    {
+        std::cout << "Failed to load ring image\n";
+        return false;
+    }
+    ringTexture->Generate(ringImage);
+    ResourceManager::Instance().FreeImage(ringImage);
+
+    backgroundTexture = new Texture2d();
     Image backgroundImage = ResourceManager::Instance().GetImage("Assets/Textures/RoomBackground.png", &error);
     if(error != 0)
     {
@@ -61,8 +77,23 @@ bool GameLogic::Init()
     testSprite2 = new Sprite(*testShader, *testTexture);
     testSprite2->position += Vector3(4, -5);
     background = new Sprite(*testShader, *backgroundTexture);
-    std::cout << "Initialized!!!\n";
+
+    CreateRing(glm::vec2(0, 0));
     return true;
+}
+
+float RandomFloat()
+{
+    float value = rand() % 100 / 100.0f;
+    return value;
+}
+
+void GameLogic::CreateRing(glm::vec2 position)
+{
+    Sprite* ring = new Sprite(*testShader, *ringTexture);
+    ring->position = Vector3(position.x, position.y, 0);
+    ring->color.SetColors(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
+    ringHolder.push_back(ring);
 }
 
 void GameLogic::Update()
@@ -73,11 +104,19 @@ void GameLogic::Update()
     Renderer::Instance().DrawSprite(*background);
     Renderer::Instance().DrawSprite(*testSprite);
     Renderer::Instance().DrawSprite(*testSprite2);
-    if(Input::IsMouseButtonPressed(MOUSE_LEFT))
+
+    for(Sprite* ring: ringHolder)
+    {
+        Renderer::Instance().DrawSprite(*ring);
+    }
+
+    if(Input::IsMouseButtonPressed(MOUSE_LEFT) && !prevButton)
     {
         glm::vec2 worldPosition = Camera::Main().ScreenToWorldPosition(Input::GetMouseScreenPosition());
-        std::cout << "zoom: " << Camera::Main().zoom << " World: (" << worldPosition.x << ", " << worldPosition.y << ")\n";
+        CreateRing(worldPosition);
     }
+
+    prevButton = Input::IsMouseButtonPressed(MOUSE_LEFT);
 }
 
 void GameLogic::CleanUp()

@@ -1,6 +1,7 @@
 #ifdef OPEN_GL_BUILD
 #include "OpenGL_Window.h"
 #include "../Window.h"
+#include "../../Input/OpenGL/OpenGL_Input.h"
 
 #include <iostream>
 
@@ -33,6 +34,15 @@ bool OpenGL_Window::Init(const int width, const int height, const char *windowTi
         glfwTerminate();
         return false;
     }
+
+    if(!OpenGL_Input::Init())
+    {
+        std::cout << "Failed to initialize OpenGL input\n";
+        glfwTerminate();
+        return false;
+    }
+
+    glfwSetMouseButtonCallback(window, OpenGL_Input::MouseButtonCallback);
 
     // glfw window creation
     // --------------------
@@ -91,7 +101,9 @@ bool OpenGL_Window::IsKeyPressed(KeyCode keyCode)
 
 bool OpenGL_Window::IsMouseButtonPressed(MouseCode mouseCode)
 {
-    return glfwGetMouseButton(window, mouseCode) == GLFW_PRESS;
+    //Keeping around the query way of checking for mouse press because why not?
+    //return glfwGetMouseButton(window, mouseCode) == GLFW_PRESS;
+    return OpenGL_Input::IsMouseButtonPressed(mouseCode);
 }
 
 glm::vec2 OpenGL_Window::GetMouseScreenPosition()
