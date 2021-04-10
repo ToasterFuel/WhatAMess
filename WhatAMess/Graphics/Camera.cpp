@@ -1,14 +1,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "../Utility/VectorUtils.h"
 #include "../Utility/MathUtils.h"
 #include "Camera.h"
 #include "Window.h"
 
-Camera::Camera(): position(Vector3()), rotation(0), zoom(1), nearClip(.1f), farClip(100.0f)
+Camera::Camera(): position(glm::vec3(0.0f, 0.0f, 0.0f)), rotation(0), zoom(1), nearClip(.1f), farClip(100.0f)
 {
 }
 
-void Camera::Init(Vector3 position, float rotation, float zoom, float nearClip, float farClip)
+void Camera::Init(glm::vec3 position, float rotation, float zoom, float nearClip, float farClip)
 {
     this->position = position;
     this->rotation = rotation;
@@ -46,9 +47,7 @@ glm::mat4 Camera::GetProjectionMatrix() const
 glm::mat4 Camera::GetViewMatrix()
 {
     glm::mat4 view(1.0f);
-    view = glm::lookAt(position.ToGraphicsRepresentation(),
-        (position + Vector3(0, 0, -1)).ToGraphicsRepresentation(),
-        Vector3::UP.ToGraphicsRepresentation());
+    view = glm::lookAt(position, position + VectorUtils::FORWARDv3, VectorUtils::UPv3);
     view = glm::translate(view, glm::vec3(position.x, position.y, 0.0));
     view = glm::rotate(view, glm::radians(rotation), glm::vec3(0.0, 0.0, 1.0));
     view = glm::translate(view, glm::vec3(-position.x, -position.y, 0.0));

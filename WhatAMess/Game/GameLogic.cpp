@@ -7,6 +7,7 @@
 #include "../Graphics/Window.h"
 #include "../Timing/Time.h"
 #include "../Utility/ResourceManager.h"
+#include "../Utility/VectorUtils.h"
 
 #include <iostream>
 #include <vector>
@@ -31,7 +32,7 @@ GameLogic::GameLogic()
 
 bool GameLogic::Init()
 {
-    Camera::Main().Init(Vector3(0, 0, 3), 0, 1, .1f, 100);
+    Camera::Main().Init(glm::vec3(0.0f, 0.0f, 3.0f), 0, 1, .1f, 100);
     testTexture = new Texture2d();
 
     int error = 0;
@@ -138,7 +139,7 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_A))
         moveDirection.x -= 1;
 
-    Vector3 cameraMoveDirection = Vector3();
+    glm::vec2 cameraMoveDirection = glm::vec2(0.0f, 0.0f);
     if(Input::IsKeyPressed(KEY_UP))
         cameraMoveDirection.y += 1;
     if(Input::IsKeyPressed(KEY_DOWN))
@@ -160,9 +161,9 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_O))
         zoomMultiplier -= 1;
 
-    sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
+    //sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
     Camera& camera = Camera::Main();
     camera.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
-    camera.position += cameraMoveDirection * 100 * Time::Instance().DeltaTime();
+    camera.position += VectorUtils::ToVec3(cameraMoveDirection * 100.0f * Time::Instance().DeltaTime());
     camera.zoom += zoomMultiplier * Time::Instance().DeltaTime();
 }

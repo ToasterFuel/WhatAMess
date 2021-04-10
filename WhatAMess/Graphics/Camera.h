@@ -8,13 +8,13 @@
 class Camera
 {
 public:
-    Vector3 position;
+    glm::vec3 position;
     float zoom;
     float nearClip;
     float farClip;
 
     Camera();
-    void Init(Vector3 position, float rotation, float zoom, float nearClip, float farClip);
+    void Init(glm::vec3 position, float rotation, float zoom, float nearClip, float farClip);
     /*
      * screenPosition should be in pixels with the origin in the top left
      */

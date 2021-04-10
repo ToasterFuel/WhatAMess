@@ -43,6 +43,7 @@
     <ClCompile Include="Utility\OpenGL\OpenGL_ResourceManager.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Utility\ShaderData.cpp" />
+    <ClCompile Include="Utility\VectorUtils.cpp" />
     <ClCompile Include="Utility\WebGL\WebGL_ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
