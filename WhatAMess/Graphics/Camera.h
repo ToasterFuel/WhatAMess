@@ -3,8 +3,6 @@
 
 #include <glm/glm.hpp>
 
-#include "../Math/Vector3.h"
-
 class Camera
 {
 public:

@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "../Utility/VectorUtils.h"
 
 #ifdef OPEN_GL_BUILD
 #include <glad/glad.h>
@@ -20,10 +21,10 @@ void Renderer::DrawSprite(const Sprite &sprite) const
 {
     sprite.SetShaderData();
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, sprite.position.ToGraphicsRepresentation());
+    model = glm::translate(model, VectorUtils::ToVec3(sprite.position));
     //Translate to center before rotating??
     model = glm::rotate(model, glm::radians(sprite.rotation), glm::vec3(0, 0, 1));
-    model = glm::scale(model, sprite.scale.ToGraphicsRepresentation());
+    model = glm::scale(model, VectorUtils::ToVec3(sprite.scale));
 
     sprite.shader.SetMatrix4("model", model);
     sprite.shader.SetMatrix4("view", cameraView);

@@ -11,10 +11,10 @@
 #define glDeleteVertexArrays glDeleteVertexArraysOES
 #endif
 
-Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, Vector3 position, Vector3 scale, float rotation) :
-    shader(shader), texture(texture), color(color), position(position), rotation(rotation), scale(scale)
+Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, glm::vec2 position, float rotation):
+    shader(shader), texture(texture), color(color), position(position), rotation(rotation)
 {
-    this->scale = Vector3(texture.GetWidth(), texture.GetHeight(), 1);
+    this->scale = glm::vec2(texture.GetWidth(), texture.GetHeight());
     unsigned int VBO;
     //TODO make this 3d positions?
     float vertices[] = {

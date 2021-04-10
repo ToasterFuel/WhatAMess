@@ -76,7 +76,7 @@ bool GameLogic::Init()
     testShader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
     testSprite = new Sprite(*testShader, *testTexture);
     testSprite2 = new Sprite(*testShader, *testTexture);
-    testSprite2->position += Vector3(4, -5);
+    testSprite2->position += glm::vec2(4.0f, -5.0f);
     background = new Sprite(*testShader, *backgroundTexture);
 
     CreateRing(glm::vec2(0, 0));
@@ -92,7 +92,7 @@ float RandomFloat()
 void GameLogic::CreateRing(glm::vec2 position)
 {
     Sprite* ring = new Sprite(*testShader, *ringTexture);
-    ring->position = Vector3(position.x, position.y, 0);
+    ring->position = position;
     ring->color.SetColors(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
     ringHolder.push_back(ring);
 }
@@ -129,7 +129,7 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_ESCAPE))
         Window::Instance().Close();
 
-    Vector3 moveDirection = Vector3();
+    glm::vec2 moveDirection = glm::vec2(0.0f, 0.0f);
     if(Input::IsKeyPressed(KEY_W))
         moveDirection.y += 1;
     if(Input::IsKeyPressed(KEY_S))
@@ -161,7 +161,7 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_O))
         zoomMultiplier -= 1;
 
-    //sprite.position += moveDirection * 300 * Time::Instance().DeltaTime();
+    sprite.position += moveDirection * 300.0f * Time::Instance().DeltaTime();
     Camera& camera = Camera::Main();
     camera.rotation += spinMultiplier * 100 * Time::Instance().DeltaTime();
     camera.position += VectorUtils::ToVec3(cameraMoveDirection * 100.0f * Time::Instance().DeltaTime());

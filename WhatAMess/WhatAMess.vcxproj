@@ -34,7 +34,6 @@
     <ClCompile Include="Graphics\Window.cpp" />
     <ClCompile Include="Input\OpenGL\OpenGL_Input.cpp" />
     <ClCompile Include="Input\WebGL\WebGL_Input.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Timing\OpenGL\OpenGL_Time.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
@@ -64,7 +63,6 @@
     <ClInclude Include="Input\MouseCode.h" />
     <ClInclude Include="Input\OpenGL\OpenGL_Input.h" />
     <ClInclude Include="Input\WebGL\WebGL_Input.h" />
-    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Shader_s.h" />
     <ClInclude Include="Timing\OpenGL\OpenGL_Time.h" />
     <ClInclude Include="Timing\Time.h" />
