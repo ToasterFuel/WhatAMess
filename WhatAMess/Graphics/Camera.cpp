@@ -20,7 +20,6 @@ void Camera::Init(glm::vec3 position, float rotation, float zoom, float nearClip
 
 glm::vec2 Camera::ScreenToWorldPosition(glm::vec2 screenPosition)
 {
-    //TODO do something with the zoom
     screenPosition.x = MathUtils::Normalize(0, Window::Instance().GetWidth(), screenPosition.x) * 2 - 1;
     screenPosition.y = MathUtils::Normalize(0, Window::Instance().GetHeight(), screenPosition.y) * 2 - 1;
     screenPosition.x *= Window::Instance().GetWidth() * zoom / 2;
@@ -32,7 +31,6 @@ glm::vec2 Camera::ScreenToWorldPosition(glm::vec2 screenPosition)
     worldPosition.y = screenPosition.x * glm::sin(rotation) + screenPosition.y * glm::cos(rotation);
 
     worldPosition += glm::vec2(Camera::Main().position.x, Camera::Main().position.y);
-
     return worldPosition;
 }
 

@@ -90,6 +90,12 @@
     <ClCompile Include="Utility\VectorUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Collision\BoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Components\Ring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input\Input.h">
@@ -171,6 +177,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Input\OpenGL\OpenGL_Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\AABBSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Components\Ring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

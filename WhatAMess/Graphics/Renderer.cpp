@@ -26,9 +26,9 @@ void Renderer::DrawSprite(const Sprite &sprite) const
     model = glm::rotate(model, glm::radians(sprite.rotation), glm::vec3(0, 0, 1));
     model = glm::scale(model, VectorUtils::ToVec3(sprite.scale));
 
-    sprite.shader.SetMatrix4("model", model);
-    sprite.shader.SetMatrix4("view", cameraView);
-    sprite.shader.SetMatrix4("projection", cameraProjection);
+    sprite.shader->SetMatrix4("model", model);
+    sprite.shader->SetMatrix4("view", cameraView);
+    sprite.shader->SetMatrix4("projection", cameraProjection);
 
     glBindVertexArray(sprite.quadVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);

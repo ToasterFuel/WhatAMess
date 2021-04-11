@@ -1,6 +1,8 @@
 #ifndef __VECTOR_UTILS_H__
 #define __VECTOR_UTILS_H__
 
+#include "MathUtils.h"
+
 #include <glm/glm.hpp>
 
 class VectorUtils
@@ -13,6 +15,16 @@ public:
     static glm::vec3 ToVec3(glm::vec2 data)
     {
         return glm::vec3(data, 0.0f);
+    }
+
+    static glm::vec2 Min(glm::vec2 a, glm::vec2 b)
+    {
+        return glm::vec2(MathUtils::Min(a.x, b.x), MathUtils::Min(a.y, b.y));
+    }
+
+    static glm::vec2 Max(glm::vec2 a, glm::vec2 b)
+    {
+        return glm::vec2(MathUtils::Max(a.x, b.x), MathUtils::Max(a.y, b.y));
     }
 };
 

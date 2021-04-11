@@ -8,6 +8,7 @@
 #include "../Timing/Time.h"
 #include "../Utility/ResourceManager.h"
 #include "../Utility/VectorUtils.h"
+#include "Components/Ring.h"
 
 #include <iostream>
 #include <vector>
@@ -24,7 +25,7 @@ Shader* testShader;
 Texture2d* ringTexture;
 Sprite* ringSprite;
 
-std::vector<Sprite*> ringHolder;
+std::vector<Ring*> ringHolder;
 
 GameLogic::GameLogic()
 {
@@ -74,10 +75,13 @@ bool GameLogic::Init()
     testShader = new Shader();
     testShader->Compile(shaderData);
     testShader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    testSprite = new Sprite(*testShader, *testTexture);
-    testSprite2 = new Sprite(*testShader, *testTexture);
+    testSprite = new Sprite();
+    testSprite->Init(testShader, testTexture);
+    testSprite2 = new Sprite();
+    testSprite2->Init(testShader, testTexture);
     testSprite2->position += glm::vec2(4.0f, -5.0f);
-    background = new Sprite(*testShader, *backgroundTexture);
+    background = new Sprite();
+    background->Init(testShader, backgroundTexture);
 
     CreateRing(glm::vec2(0, 0));
     return true;
@@ -91,9 +95,8 @@ float RandomFloat()
 
 void GameLogic::CreateRing(glm::vec2 position)
 {
-    Sprite* ring = new Sprite(*testShader, *ringTexture);
-    ring->position = position;
-    ring->color.SetColors(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
+    Ring* ring = new Ring();
+    ring->Init(position, testShader, ringTexture);
     ringHolder.push_back(ring);
 }
 
@@ -106,9 +109,9 @@ void GameLogic::Update()
     Renderer::Instance().DrawSprite(*testSprite);
     Renderer::Instance().DrawSprite(*testSprite2);
 
-    for(Sprite* ring: ringHolder)
+    for(Ring* ring: ringHolder)
     {
-        Renderer::Instance().DrawSprite(*ring);
+        ring->Render();
     }
 
     if(Input::IsMouseButtonPressed(MOUSE_LEFT) && !prevButton)

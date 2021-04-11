@@ -11,10 +11,8 @@
 #define glDeleteVertexArrays glDeleteVertexArraysOES
 #endif
 
-Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, glm::vec2 position, float rotation):
-    shader(shader), texture(texture), color(color), position(position), rotation(rotation)
+Sprite::Sprite(): position(glm::vec2(0.0f, 0.0f)), rotation(0), scale(glm::vec2(1.0f, 1.0f)), shader(nullptr), texture(nullptr)
 {
-    this->scale = glm::vec2(texture.GetWidth(), texture.GetHeight());
     unsigned int VBO;
     //TODO make this 3d positions?
     float vertices[] = {
@@ -41,12 +39,22 @@ Sprite::Sprite(Shader &shader, Texture2d& texture, Color color, glm::vec2 positi
     glBindVertexArray(0);
 }
 
+void Sprite::Init(Shader* shader, Texture2d* texture, Color color, glm::vec2 position, float rotation)
+{
+    this->shader = shader;
+    this->texture = texture;
+    this->position = position;
+    this->color = color;
+    this->rotation = rotation;
+    this->scale = glm::vec2(texture->GetWidth(), texture->GetHeight());
+}
+
 void Sprite::SetShaderData() const
 {
-    shader.Use();
+    shader->Use();
     glActiveTexture(GL_TEXTURE0);
-    texture.Bind();
-    shader.SetVector4f("spriteColor", color.ToVec4());
+    texture->Bind();
+    shader->SetVector4f("spriteColor", color.ToVec4());
 }
 
 Sprite::~Sprite()
