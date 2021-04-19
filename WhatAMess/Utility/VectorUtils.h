@@ -26,6 +26,11 @@ public:
     {
         return glm::vec2(MathUtils::Max(a.x, b.x), MathUtils::Max(a.y, b.y));
     }
+
+    static glm::vec2 FindCenter(glm::vec2 a, glm::vec2 b)
+    {
+        return glm::vec2((a.x + b.x) / 2.0f, (a.y + b.y) / 2.0f);
+    }
 };
 
 #endif

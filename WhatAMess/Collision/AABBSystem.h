@@ -2,6 +2,8 @@
 #define __AABB_SYSTEM_H__
 
 #include "BoundingBox.h"
+#include "AABBNode.h"
+#include "../Graphics/Sprite.h"
 
 class AABBSystem
 {
@@ -12,7 +14,28 @@ public:
         return instance;
     }
 
-    //void AddBoundingBox(BoundingBox boundingBox);
+    void Init(Shader* spriteShader, Texture2d* boxTexture);
+
+    void AddBoundingBox(BoundingBox boundingBox);
+    void RenderTree();
+private:
+    AABBNode* root;
+    AABBNode* CreateNode(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right);
+    /*
+     * < 0 if left is lower
+     * 0 if they are equal
+     * > 0 if right is lower
+     */
+    int GetLowerNode(AABBNode* left, AABBNode*right);
+    /*
+     * < 0 if left is lower
+     * 0 if they are equal
+     * > 0 if right is lower
+     */
+    int GetLowerNode(AABBNode* parent);
+    void RecalculateBounds(AABBNode* startNode);
+    void RenderTree(AABBNode* node);
+    Sprite squareSprite;
 };
 
 #endif

@@ -11,3 +11,10 @@ void Ring::Render()
 {
     Renderer::Instance().DrawSprite(sprite);
 }
+
+BoundingBox Ring::CreateBoundingBox()
+{
+    BoundingBox boundingBox;
+    boundingBox.Init(sprite.position, sprite.scale.x);
+    return boundingBox;
+}

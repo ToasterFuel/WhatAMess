@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision\AABBNode.cpp" />
     <ClCompile Include="Collision\BoundingBox.cpp" />
+    <ClCompile Include="Collision\AABBSystem.cpp" />
     <ClCompile Include="Game\Components\Ring.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameLogic.cpp" />
@@ -48,6 +50,7 @@
     <ClCompile Include="Utility\WebGL\WebGL_ResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision\AABBNode.h" />
     <ClInclude Include="Collision\AABBSystem.h" />
     <ClInclude Include="Collision\BoundingBox.h" />
     <ClInclude Include="Game\Components\Ring.h" />

@@ -9,6 +9,7 @@
 #include "../Utility/ResourceManager.h"
 #include "../Utility/VectorUtils.h"
 #include "Components/Ring.h"
+#include "../Collision/AABBSystem.h"
 
 #include <iostream>
 #include <vector>
@@ -23,7 +24,7 @@ Texture2d* backgroundTexture;
 Shader* testShader;
 
 Texture2d* ringTexture;
-Sprite* ringSprite;
+Texture2d* boxTexture;
 
 std::vector<Ring*> ringHolder;
 
@@ -84,6 +85,18 @@ bool GameLogic::Init()
     background->Init(testShader, backgroundTexture);
 
     CreateRing(glm::vec2(0, 0));
+
+    boxTexture = new Texture2d();
+    Image boxImage = ResourceManager::Instance().GetImage("Assets/Textures/BoundingSquare.png", &error);
+    if(error != 0)
+    {
+        std::cout << "Failed to load bounding square image\n";
+        return false;
+    }
+    boxTexture->Generate(boxImage);
+    ResourceManager::Instance().FreeImage(boxImage);
+    AABBSystem::Instance().Init(testShader, boxTexture);
+
     return true;
 }
 
@@ -98,6 +111,7 @@ void GameLogic::CreateRing(glm::vec2 position)
     Ring* ring = new Ring();
     ring->Init(position, testShader, ringTexture);
     ringHolder.push_back(ring);
+    AABBSystem::Instance().AddBoundingBox(ring->CreateBoundingBox());
 }
 
 void GameLogic::Update()
@@ -105,14 +119,15 @@ void GameLogic::Update()
     processInput(*testSprite);
 
     Renderer::Instance().SyncCameraViewProjection(Camera::Main());
-    Renderer::Instance().DrawSprite(*background);
-    Renderer::Instance().DrawSprite(*testSprite);
-    Renderer::Instance().DrawSprite(*testSprite2);
+    //Renderer::Instance().DrawSprite(*background);
+    //Renderer::Instance().DrawSprite(*testSprite);
+    //Renderer::Instance().DrawSprite(*testSprite2);
 
     for(Ring* ring: ringHolder)
     {
         ring->Render();
     }
+    AABBSystem::Instance().RenderTree();
 
     if(Input::IsMouseButtonPressed(MOUSE_LEFT) && !prevButton)
     {

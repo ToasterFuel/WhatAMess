@@ -8,6 +8,13 @@ void BoundingBox::Init(glm::vec2 center, float radius)
     max = glm::vec2(center.x + radius, center.y + radius);
 }
 
+void BoundingBox::Init(BoundingBox a, BoundingBox b)
+{
+    min = VectorUtils::Min(a.min, b.min);
+    max = VectorUtils::Max(a.max, b.max);
+    center = VectorUtils::FindCenter(min, max);
+}
+
 float BoundingBox::GetWidth()
 {
     return max.x - min.x;
@@ -30,4 +37,13 @@ glm::vec2 BoundingBox::GetMax()
 glm::vec2 BoundingBox::GetCenter()
 {
     return center;
+}
+
+bool BoundingBox::Overlaps(BoundingBox& other)
+{
+    //return maxx1 > minx2 && minx1 < maxx2 && maxy1 > miny2 && miny1 < maxy2
+    return GetMax().x > other.GetMin().x
+            && GetMin().x < other.GetMax().x
+            && GetMax().y > other.GetMin().y
+            && GetMin().y < other.GetMax().y;
 }
