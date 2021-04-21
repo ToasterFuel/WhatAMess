@@ -90,9 +90,9 @@ void Shader::CheckCompileErrors(unsigned int id, const char *type)
         if(!success)
         {
             glGetShaderInfoLog(id, 1024, NULL, infoLog);
-            std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
-                << infoLog << "\n -- --------------------------------------------------- -- "
-                << std::endl;
+            std::cout << "ERROR::SHADER: Compile-time error: Type: " << type << "\n" << infoLog << "\n++++++\n";
+            glGetProgramInfoLog(id, 1024, NULL, infoLog);
+            std::cout << infoLog << "\n-------------------------------------------------------\n";
         }
     }
     else
@@ -101,9 +101,9 @@ void Shader::CheckCompileErrors(unsigned int id, const char *type)
         if(!success)
         {
             glGetProgramInfoLog(id, 1024, NULL, infoLog);
-            std::cout << "| ERROR::Shader: Link-time error: Type: " << type << "\n"
-                << infoLog << "\n -- --------------------------------------------------- -- "
-                << std::endl;
+            std::cout << "ERROR::SHADER: Link-time error: Type: " << type << "\n" << infoLog << "\n++++++\n";
+            glGetProgramInfoLog(id, 1024, NULL, infoLog);
+            std::cout << infoLog << "\n-------------------------------------------------------\n";
         }
     }
 }

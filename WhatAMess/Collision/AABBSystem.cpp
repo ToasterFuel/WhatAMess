@@ -35,7 +35,7 @@ AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABB
 
 void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
 {
-    Test this and do 9 splicing??
+    //Test this and do 9 splicing??
     AABBNode* newNode = CreateNode(boundingBox, nullptr, nullptr, nullptr);
     if(root == nullptr)
     {

@@ -23,6 +23,9 @@ Texture2d* testTexture;
 Texture2d* backgroundTexture;
 Shader* testShader;
 
+Shader* nineSliceShader;
+Sprite* theBoxSprite;
+
 Texture2d* ringTexture;
 Texture2d* boxTexture;
 
@@ -84,7 +87,14 @@ bool GameLogic::Init()
     background = new Sprite();
     background->Init(testShader, backgroundTexture);
 
-    CreateRing(glm::vec2(0, 0));
+    ShaderData nineSliceShaderData;
+    if(!nineSliceShaderData.LoadFromFile("Assets/Shaders/NineSlice.shader"))
+    {
+        std::cout << "Failed to load shader.\n";
+        return false;
+    }
+
+    //CreateRing(glm::vec2(0, 0));
 
     boxTexture = new Texture2d();
     Image boxImage = ResourceManager::Instance().GetImage("Assets/Textures/BoundingSquare.png", &error);
@@ -96,6 +106,13 @@ bool GameLogic::Init()
     boxTexture->Generate(boxImage);
     ResourceManager::Instance().FreeImage(boxImage);
     AABBSystem::Instance().Init(testShader, boxTexture);
+
+    nineSliceShader = new Shader();
+    nineSliceShader->Compile(nineSliceShaderData);
+    nineSliceShader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    nineSliceShader->SetVector4f("borders", glm::vec4(0.33333f, 0.33333f, 0.66666f, 0.66666f));
+    theBoxSprite = new Sprite();
+    theBoxSprite->Init(nineSliceShader, boxTexture);
 
     return true;
 }
@@ -123,6 +140,8 @@ void GameLogic::Update()
     //Renderer::Instance().DrawSprite(*testSprite);
     //Renderer::Instance().DrawSprite(*testSprite2);
 
+    Renderer::Instance().DrawSprite(*theBoxSprite);
+
     for(Ring* ring: ringHolder)
     {
         ring->Render();
@@ -146,6 +165,18 @@ void processInput(Sprite& sprite)
 {
     if(Input::IsKeyPressed(KEY_ESCAPE))
         Window::Instance().Close();
+
+    Nine-slicing does not work :(
+    glm::vec2 scaleMultiplier = glm::vec2(0.0f, 0.0f);
+    if(Input::IsKeyPressed(KEY_M))
+        scaleMultiplier.x += 1;
+    if(Input::IsKeyPressed(KEY_N))
+        scaleMultiplier.x -= 1;
+    if(Input::IsKeyPressed(KEY_C))
+        scaleMultiplier.y += 1;
+    if(Input::IsKeyPressed(KEY_V))
+        scaleMultiplier.y -= 1;
+    theBoxSprite->scale += scaleMultiplier * 100.0f * Time::Instance().DeltaTime();
 
     glm::vec2 moveDirection = glm::vec2(0.0f, 0.0f);
     if(Input::IsKeyPressed(KEY_W))
