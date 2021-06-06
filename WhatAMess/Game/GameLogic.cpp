@@ -103,6 +103,7 @@ bool GameLogic::Init()
         std::cout << "Failed to load bounding square image\n";
         return false;
     }
+    boxTexture->SetFilter(TEXTURE_NEAREST);
     boxTexture->Generate(boxImage);
     ResourceManager::Instance().FreeImage(boxImage);
     AABBSystem::Instance().Init(testShader, boxTexture);
@@ -166,7 +167,6 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_ESCAPE))
         Window::Instance().Close();
 
-    Nine-slicing does not work :(
     glm::vec2 scaleMultiplier = glm::vec2(0.0f, 0.0f);
     if(Input::IsKeyPressed(KEY_M))
         scaleMultiplier.x += 1;

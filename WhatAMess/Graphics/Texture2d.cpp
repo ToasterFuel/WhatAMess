@@ -9,9 +9,9 @@
 
 #include "Texture2d.h"
 
-Texture2d::Texture2d() : width(0), height(0),
+Texture2d::Texture2d() : id(0), width(0), height(0),
         internalFormat(GL_RGBA), imageFormat(GL_RGBA), wrapS(GL_REPEAT),
-        wrapT(GL_REPEAT), filterMin(GL_LINEAR), filterMax(GL_LINEAR)
+        wrapT(GL_REPEAT), filterMin(GL_LINEAR), filterMag(GL_LINEAR)
 {
 }
 
@@ -22,6 +22,41 @@ unsigned int Texture2d::GetWidth()
 unsigned int Texture2d::GetHeight()
 {
     return height;
+}
+
+void Texture2d::SetFilter(TextureFilterMode filterMode)
+{
+    switch(filterMode)
+    {
+    case TEXTURE_NEAREST:
+        filterMin = GL_NEAREST;
+        filterMag = GL_NEAREST;
+        break;
+    case TEXTURE_LINEAR:
+        filterMin = GL_LINEAR;
+        filterMag = GL_LINEAR;
+        break;
+    }
+}
+
+void Texture2d::SetClamp(TextureClampMode clampModeX, TextureClampMode clampModeY)
+{
+    wrapS = GetGraphicsClamp(clampModeX);
+    wrapT = GetGraphicsClamp(clampModeY);
+}
+
+unsigned int Texture2d::GetGraphicsClamp(TextureClampMode clampMode)
+{
+    switch(clampMode)
+    {
+    case TEXTURE_CLAMP:
+        return GL_CLAMP_TO_EDGE;
+    case TEXTURE_MIRROR_REPEAT:
+        return GL_MIRRORED_REPEAT;
+    case TEXTURE_REPEAT:
+        return GL_REPEAT;
+    }
+    return GL_REPEAT;
 }
 
 void Texture2d::Generate(Image image)
@@ -48,8 +83,9 @@ void Texture2d::Generate(unsigned int width, unsigned int height, int numberOfBi
     glBindTexture(GL_TEXTURE_2D, id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+    std::cout << "FilterMin: " << filterMin << " Nearest: " << GL_NEAREST << " Linear: " << GL_LINEAR << "\n";
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMax);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMag);
 
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, imageFormat, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);

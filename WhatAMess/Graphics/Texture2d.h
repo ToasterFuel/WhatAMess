@@ -3,6 +3,19 @@
 
 #include "../Utility/Image.h"
 
+enum TextureFilterMode
+{
+    TEXTURE_NEAREST,
+    TEXTURE_LINEAR
+};
+
+enum TextureClampMode
+{
+    TEXTURE_CLAMP,
+    TEXTURE_MIRROR_REPEAT,
+    TEXTURE_REPEAT
+};
+
 class Texture2d
 {
 public:
@@ -10,11 +23,15 @@ public:
     void Generate(Image image);
     void Generate(unsigned int width, unsigned int height, int numberOfBitsPerPixel, unsigned char* data);
     void Bind() const;
+    void SetFilter(TextureFilterMode filterMode);
+    void SetClamp(TextureClampMode clampModeX, TextureClampMode clampModeY);
 
     unsigned int GetWidth();
     unsigned int GetHeight();
 
 private:
+    unsigned int GetGraphicsClamp(TextureClampMode clampMode);
+
     unsigned int id;
     unsigned int width;
     unsigned int height;
@@ -23,7 +40,7 @@ private:
     unsigned int wrapS;
     unsigned int wrapT;
     unsigned int filterMin;
-    unsigned int filterMax;
+    unsigned int filterMag;
 };
 
 #endif

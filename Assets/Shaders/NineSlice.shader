@@ -24,7 +24,8 @@ out vec4 color;
 
 uniform sampler2D image;
 uniform vec4 spriteColor;
-uniform vec4 borders; //(all in percent)<left width, lower height, right width, top height>: <.1, .1, .8, .8>
+uniform vec4 borders; //(all in percent from edge)<left width, lower height, right width, top height>: <.1, .1, .2, .2>
+uniform vec4 scales; //<original scale x, original scale y, current scale x, current scale y>
 
 float getSliceValue(float testValue, float min, float max)
 {
