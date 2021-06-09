@@ -111,19 +111,11 @@ bool GameLogic::Init()
 
     nineSliceShader = new Shader();
     nineSliceShader->Compile(nineSliceShaderData);
-    nineSliceShader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    nineSliceShader->SetVector4f("borders", glm::vec4(0.33333f, 0.33333f, 0.66666f, 0.66666f));
     theBoxSprite = new Sprite();
     theBoxSprite->Init(nineSliceShader, boxTexture);
     squareOriginalScale = theBoxSprite->scale;
 
     return true;
-}
-
-float RandomFloat()
-{
-    float value = rand() % 100 / 100.0f;
-    return value;
 }
 
 void GameLogic::CreateRing(glm::vec2 position)
@@ -143,7 +135,11 @@ void GameLogic::Update()
     //Renderer::Instance().DrawSprite(*testSprite);
     //Renderer::Instance().DrawSprite(*testSprite2);
 
-    theBoxSprite->shader->SetVector4f("scales", glm::vec4(squareOriginalScale, theBoxSprite->scale));
+    theBoxSprite->shader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+    theBoxSprite->shader->SetVector4f("borders", glm::vec4(0.33333f, 0.33333f, 0.66666f, 0.66666f));
+    glm::vec4 scales(squareOriginalScale, theBoxSprite->scale);
+    std::cout << "x: " << scales.x << " z: " << scales.z << "\n";
+    theBoxSprite->shader->SetVector4f("scales", scales);
     Renderer::Instance().DrawSprite(*theBoxSprite);
 
     for(Ring* ring: ringHolder)
@@ -176,9 +172,9 @@ void processInput(Sprite& sprite)
     if(Input::IsKeyPressed(KEY_N))
         scaleMultiplier.x -= 1;
     if(Input::IsKeyPressed(KEY_V))
-        scaleMultiplier.y -= 1;
-    if(Input::IsKeyPressed(KEY_C))
         scaleMultiplier.y += 1;
+    if(Input::IsKeyPressed(KEY_C))
+        scaleMultiplier.y -= 1;
     theBoxSprite->scale += scaleMultiplier * 100.0f * Time::Instance().DeltaTime();
 
     glm::vec2 moveDirection = glm::vec2(0.0f, 0.0f);

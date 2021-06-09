@@ -27,9 +27,9 @@ uniform vec4 spriteColor;
 uniform vec4 borders; //(all in percent from edge)<left width, lower height, right width, top height>: <.1, .1, .8, .8>
 uniform vec4 scales; //<original scale x, original scale y, current scale x, current scale y>
 
-float map(float value, float min1, float max1, float min2, float max2)
+float map(float value, float originalMin, float originalMax, float newMin, float newMax)
 {
-    return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+    return newMin + (value - originalMin) * (newMax - newMin) / (originalMax - originalMin);
 }
 
 float getSliceValue(float testValue, float min, float max)
@@ -44,9 +44,19 @@ void main()
     vec2 slicedCoords;
     //slicedCoords.x = getSliceValue(TexCoords.x, borders.x, borders.z);
     //slicedCoords.y = getSliceValue(TexCoords.y, borders.y, borders.w);
-    vec2 currentPixels = TexCoords * scales.zw;
-    vec4 originalPixels = borders * scales.xyxy;
+    vec2 sliceUVs = (borders.xz * scales.x) / scales.z;
     vec4 otherColor = spriteColor;
+    if(TexCoords.x <= sliceUVs.x)
+    {
+        otherColor = vec4(1, 0, 0, 1);
+	slicedCoords.x = map(TexCoords.x, 0, sliceUVs.x, 0, borders.x);
+    }
+    else
+    {
+        otherColor = vec4(1, 1, 0, 1);
+        slicedCoords.x = TexCoords.x;
+    }
+    /*
     if(currentPixels.x < originalPixels.x)
     {
         otherColor = vec4(1, 0, 0, 1);
@@ -62,8 +72,8 @@ void main()
         otherColor = vec4(0, 0, 1, 1);
         slicedCoords.x = map(currentPixels.x, scales.z * borders.x, scales.z * borders.z, borders.x, borders.z);
     }
+    */
 
-    slicedCoords.x = TexCoords.x;
     slicedCoords.y = TexCoords.y;
     //color = texture(image, slicedCoords) * spriteColor;
     color = texture(image, slicedCoords) * otherColor;
