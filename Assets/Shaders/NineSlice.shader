@@ -49,11 +49,16 @@ void main()
     if(TexCoords.x <= sliceUVs.x)
     {
         otherColor = vec4(1, 0, 0, 1);
-	slicedCoords.x = map(TexCoords.x, 0, sliceUVs.x, 0, borders.x);
+        slicedCoords.x = map(TexCoords.x, 0, sliceUVs.x, 0, borders.x);
+    }
+    else if(1 - TexCoords.x <= 1 - sliceUVs.y)
+    {
+        otherColor = vec4(0, 0, 1, 1);
+        slicedCoords.x = map(TexCoords.x, 1 - sliceUVs.y, 1, borders.z, 1);
     }
     else
     {
-        otherColor = vec4(1, 1, 0, 1);
+        otherColor = vec4(0, 1, 0, 1);
         slicedCoords.x = TexCoords.x;
     }
     /*

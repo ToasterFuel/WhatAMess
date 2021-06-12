@@ -136,9 +136,8 @@ void GameLogic::Update()
     //Renderer::Instance().DrawSprite(*testSprite2);
 
     theBoxSprite->shader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    theBoxSprite->shader->SetVector4f("borders", glm::vec4(0.33333f, 0.33333f, 0.66666f, 0.66666f));
+    theBoxSprite->shader->SetVector4f("borders", glm::vec4(0.4f, 0.33333f, 0.6f, 0.66666f));
     glm::vec4 scales(squareOriginalScale, theBoxSprite->scale);
-    std::cout << "x: " << scales.x << " z: " << scales.z << "\n";
     theBoxSprite->shader->SetVector4f("scales", scales);
     Renderer::Instance().DrawSprite(*theBoxSprite);
 
