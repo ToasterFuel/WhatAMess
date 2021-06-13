@@ -45,21 +45,22 @@ void main()
     //slicedCoords.x = getSliceValue(TexCoords.x, borders.x, borders.z);
     //slicedCoords.y = getSliceValue(TexCoords.y, borders.y, borders.w);
     vec2 sliceUVs = (borders.xz * scales.x) / scales.z;
+    sliceUVs.y = 1 - sliceUVs.y;
     vec4 otherColor = spriteColor;
     if(TexCoords.x <= sliceUVs.x)
     {
         otherColor = vec4(1, 0, 0, 1);
         slicedCoords.x = map(TexCoords.x, 0, sliceUVs.x, 0, borders.x);
     }
-    else if(1 - TexCoords.x <= 1 - sliceUVs.y)
+    else if(TexCoords.x >= sliceUVs.y)
     {
         otherColor = vec4(0, 0, 1, 1);
-        slicedCoords.x = map(TexCoords.x, 1 - sliceUVs.y, 1, borders.z, 1);
+        slicedCoords.x = map(TexCoords.x, sliceUVs.y, 1, 1 - borders.z, 1);
     }
     else
     {
         otherColor = vec4(0, 1, 0, 1);
-        slicedCoords.x = TexCoords.x;
+        slicedCoords.x = map(TexCoords.x, sliceUVs.x, sliceUVs.y, borders.x, 1 - borders.z);
     }
     /*
     if(currentPixels.x < originalPixels.x)
