@@ -2,10 +2,13 @@
 #include "../Graphics/Renderer.h"
 #include "../Utility/MathUtils.h"
 
-void AABBSystem::Init(Shader* spriteShader, Texture2d* boxTexture)
+void AABBSystem::Init(Shader* spriteShader, Texture2d* boxTexture, glm::vec4 nineSliceBorders)
 {
-    squareSprite = Sprite();
-    squareSprite.Init(spriteShader, boxTexture, Color(), glm::vec2());
+    boxSprite = Sprite();
+    boxSprite.Init(spriteShader, boxTexture, Color(), glm::vec2());
+
+    boundingSprite = NineSliceSprite();
+    boundingSprite.Init(&boxSprite, nineSliceBorders);
 }
 
 int AABBSystem::GetLowerNode(AABBNode* parent)
@@ -132,8 +135,8 @@ void AABBSystem::RenderTree(AABBNode* node)
         return;
     RenderTree(node->left);
     RenderTree(node->right);
-    squareSprite.position = node->boundingBox.GetCenter();
-    squareSprite.scale.x = node->boundingBox.GetWidth();
-    squareSprite.scale.y = node->boundingBox.GetHeight();
-    Renderer::Instance().DrawSprite(squareSprite);
+    boundingSprite.sprite->position = node->boundingBox.GetCenter();
+    boundingSprite.sprite->scale.x = node->boundingBox.GetWidth();
+    boundingSprite.sprite->scale.y = node->boundingBox.GetHeight();
+    Renderer::Instance().DrawNineSlice(boundingSprite);
 }

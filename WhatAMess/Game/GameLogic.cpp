@@ -105,17 +105,17 @@ bool GameLogic::Init()
         std::cout << "Failed to load bounding square image\n";
         return false;
     }
-    boxTexture->SetFilter(TEXTURE_NEAREST);
-    boxTexture->Generate(boxImage);
-    ResourceManager::Instance().FreeImage(boxImage);
-    AABBSystem::Instance().Init(testShader, boxTexture);
-
     nineSliceShader = new Shader();
     nineSliceShader->Compile(nineSliceShaderData);
+    boxTexture->SetFilter(TEXTURE_NEAREST);
+    boxTexture->Generate(boxImage);
     baseNineSliceSprite = new Sprite();
     baseNineSliceSprite->Init(nineSliceShader, boxTexture);
     nineSliceTest = new NineSliceSprite();
     nineSliceTest->Init(baseNineSliceSprite, glm::vec4(.333333f, .333333f, .333333f, .333333f));
+
+    ResourceManager::Instance().FreeImage(boxImage);
+    AABBSystem::Instance().Init(nineSliceShader, boxTexture, glm::vec4(.333333f, .333333f, .333333f, .333333f));
 
     return true;
 }

@@ -4,8 +4,9 @@
 void BoundingBox::Init(glm::vec2 center, float radius)
 {
     this->center = center;
-    min = glm::vec2(center.x - radius, center.y - radius);
-    max = glm::vec2(center.x + radius, center.y + radius);
+    float halfRadius = radius / 2;
+    min = glm::vec2(center.x - halfRadius, center.y - halfRadius);
+    max = glm::vec2(center.x + halfRadius, center.y + halfRadius);
 }
 
 void BoundingBox::Init(BoundingBox a, BoundingBox b)

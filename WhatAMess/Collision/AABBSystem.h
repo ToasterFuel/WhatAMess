@@ -3,6 +3,7 @@
 
 #include "BoundingBox.h"
 #include "AABBNode.h"
+#include "../Graphics/NineSliceSprite.h"
 #include "../Graphics/Sprite.h"
 
 class AABBSystem
@@ -14,7 +15,7 @@ public:
         return instance;
     }
 
-    void Init(Shader* spriteShader, Texture2d* boxTexture);
+    void Init(Shader* spriteShader, Texture2d* boxTexture, glm::vec4 nineSliceBorders);
 
     void AddBoundingBox(BoundingBox boundingBox);
     void RenderTree();
@@ -35,7 +36,9 @@ private:
     int GetLowerNode(AABBNode* parent);
     void RecalculateBounds(AABBNode* startNode);
     void RenderTree(AABBNode* node);
-    Sprite squareSprite;
+
+    Sprite boxSprite;
+    NineSliceSprite boundingSprite;
 };
 
 #endif
