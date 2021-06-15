@@ -1,6 +1,7 @@
 #include "GameLogic.h"
 #include "../Graphics/Camera.h"
 #include "../Graphics/Sprite.h"
+#include "../Graphics/NineSliceSprite.h"
 #include "../Graphics/Texture2d.h"
 #include "../Graphics/Renderer.h"
 #include "../Input/Input.h"
@@ -23,9 +24,9 @@ Texture2d* testTexture;
 Texture2d* backgroundTexture;
 Shader* testShader;
 
-glm::vec2 squareOriginalScale;
 Shader* nineSliceShader;
-Sprite* theBoxSprite;
+Sprite* baseNineSliceSprite;
+NineSliceSprite* nineSliceTest;
 
 Texture2d* ringTexture;
 Texture2d* boxTexture;
@@ -111,9 +112,10 @@ bool GameLogic::Init()
 
     nineSliceShader = new Shader();
     nineSliceShader->Compile(nineSliceShaderData);
-    theBoxSprite = new Sprite();
-    theBoxSprite->Init(nineSliceShader, boxTexture);
-    squareOriginalScale = theBoxSprite->scale;
+    baseNineSliceSprite = new Sprite();
+    baseNineSliceSprite->Init(nineSliceShader, boxTexture);
+    nineSliceTest = new NineSliceSprite();
+    nineSliceTest->Init(baseNineSliceSprite, glm::vec4(.333333f, .333333f, .333333f, .333333f));
 
     return true;
 }
@@ -135,11 +137,7 @@ void GameLogic::Update()
     //Renderer::Instance().DrawSprite(*testSprite);
     //Renderer::Instance().DrawSprite(*testSprite2);
 
-    theBoxSprite->shader->SetVector4f("spriteColor", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-    theBoxSprite->shader->SetVector4f("borders", glm::vec4(0.4f, 0.4f, 0.4f, 0.4f));
-    glm::vec4 scales(squareOriginalScale, theBoxSprite->scale);
-    theBoxSprite->shader->SetVector4f("scales", scales);
-    Renderer::Instance().DrawSprite(*theBoxSprite);
+    Renderer::Instance().DrawNineSlice(*nineSliceTest);
 
     for(Ring* ring: ringHolder)
     {
@@ -174,7 +172,7 @@ void processInput(Sprite& sprite)
         scaleMultiplier.y += 1;
     if(Input::IsKeyPressed(KEY_C))
         scaleMultiplier.y -= 1;
-    theBoxSprite->scale += scaleMultiplier * 100.0f * Time::Instance().DeltaTime();
+    baseNineSliceSprite->scale += scaleMultiplier * 100.0f * Time::Instance().DeltaTime();
 
     glm::vec2 moveDirection = glm::vec2(0.0f, 0.0f);
     if(Input::IsKeyPressed(KEY_W))
