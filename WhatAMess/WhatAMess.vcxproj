@@ -29,6 +29,7 @@
     <ClCompile Include="Game\WebGL\WebGL_Game.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Graphics\Camera.cpp" />
+    <ClCompile Include="Graphics\NineSliceSprite.cpp" />
     <ClCompile Include="Graphics\OpenGL\OpenGL_Window.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Shader.cpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="Game\OpenGL\OpenGL_Game.h" />
     <ClInclude Include="Game\WebGL\WebGL_Game.h" />
     <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\NineSliceSprite.h" />
     <ClInclude Include="Graphics\OpenGL\OpenGL_Window.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Graphics\Shader.h" />
