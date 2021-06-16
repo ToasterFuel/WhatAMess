@@ -32,13 +32,12 @@ int AABBSystem::GetLowerNode(AABBNode* left, AABBNode* right)
 AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right)
 {
     AABBNode* node = new AABBNode();
-    node->Init(boundingBox, nullptr, nullptr, nullptr);
+    node->Init(boundingBox, parent, left, right);
     return node;
 }
 
 void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
 {
-    //Test this and do 9 splicing??
     AABBNode* newNode = CreateNode(boundingBox, nullptr, nullptr, nullptr);
     if(root == nullptr)
     {
@@ -133,6 +132,7 @@ void AABBSystem::RenderTree(AABBNode* node)
 {
     if(node == nullptr)
         return;
+    
     RenderTree(node->left);
     RenderTree(node->right);
     boundingSprite.sprite->position = node->boundingBox.GetCenter();
