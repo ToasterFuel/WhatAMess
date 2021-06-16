@@ -33,6 +33,10 @@ AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABB
 {
     AABBNode* node = new AABBNode();
     node->Init(boundingBox, parent, left, right);
+    if(left != nullptr)
+        left->parent = node;
+    if(right != nullptr)
+        right->parent = node;
     return node;
 }
 
@@ -135,6 +139,7 @@ void AABBSystem::RenderTree(AABBNode* node)
     
     RenderTree(node->left);
     RenderTree(node->right);
+
     boundingSprite.sprite->position = node->boundingBox.GetCenter();
     boundingSprite.sprite->scale.x = node->boundingBox.GetWidth();
     boundingSprite.sprite->scale.y = node->boundingBox.GetHeight();
