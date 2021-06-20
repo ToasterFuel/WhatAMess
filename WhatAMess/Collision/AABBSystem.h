@@ -6,6 +6,13 @@
 #include "../Graphics/NineSliceSprite.h"
 #include "../Graphics/Sprite.h"
 
+enum RenderDirection
+{
+    RENDER_DIR_ROOT,
+    RENDER_DIR_LEFT,
+    RENDER_DIR_RIGHT
+};
+
 class AABBSystem
 {
 public:
@@ -35,7 +42,7 @@ private:
      */
     int GetLowerNode(AABBNode* parent);
     void RecalculateBounds(AABBNode* startNode);
-    void RenderTree(AABBNode* node);
+    void RenderTree(AABBNode* node, RenderDirection renderDir);
 
     Sprite boxSprite;
     NineSliceSprite boundingSprite;

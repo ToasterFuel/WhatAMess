@@ -95,18 +95,41 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         if(rightNodeLower)
             oldChild = lastFitNode->right;
 
-        BoundingBox containingBox = BoundingBox();
-        containingBox.Init(boundingBox, oldChild->boundingBox);
-
-        if(rightNodeLower)
+        //If the child is null, that means the new boundingbox is overlapping with the lastFitNode
+        if(oldChild == nullptr)
         {
-            AABBNode* parentNode = CreateNode(containingBox, lastFitNode, newNode, oldChild);
-            lastFitNode->right = parentNode;
+            BoundingBox containingBox = BoundingBox();
+            containingBox.Init(boundingBox, lastFitNode->boundingBox);
+
+            AABBNode* createdNode = CreateNode(containingBox, lastFitNode->parent, newNode, lastFitNode);
+            if(createdNode->parent == nullptr)
+            {
+                root = createdNode;
+            }
+            else if(createdNode->parent->left == lastFitNode)
+            {
+                createdNode->parent->left = createdNode;
+            }
+            else
+            {
+                createdNode->parent->right = createdNode;
+            }
         }
         else
         {
-            AABBNode* parentNode = CreateNode(containingBox, lastFitNode, oldChild, newNode);
-            lastFitNode->left = parentNode;
+            BoundingBox containingBox = BoundingBox();
+            containingBox.Init(boundingBox, oldChild->boundingBox);
+
+            if(rightNodeLower)
+            {
+                AABBNode* parentNode = CreateNode(containingBox, lastFitNode, newNode, oldChild);
+                lastFitNode->right = parentNode;
+            }
+            else
+            {
+                AABBNode* parentNode = CreateNode(containingBox, lastFitNode, oldChild, newNode);
+                lastFitNode->left = parentNode;
+            }
         }
     }
 
@@ -133,21 +156,35 @@ void AABBSystem::RenderTree()
         renderRootHeight = root->height + 1;
     else
         renderRootHeight = 0;
-    RenderTree(root);
+    RenderTree(root, RENDER_DIR_ROOT);
 }
 
-void AABBSystem::RenderTree(AABBNode* node)
+void AABBSystem::RenderTree(AABBNode* node, RenderDirection renderDir)
 {
     if(node == nullptr)
         return;
 
-    RenderTree(node->left);
-    RenderTree(node->right);
+    RenderTree(node->left, RENDER_DIR_LEFT);
+    RenderTree(node->right, RENDER_DIR_RIGHT);
 
     boundingSprite.sprite->position = node->boundingBox.GetCenter();
     boundingSprite.sprite->scale.x = node->boundingBox.GetWidth();
     boundingSprite.sprite->scale.y = node->boundingBox.GetHeight();
     float percentHeight = (float)node->height / (float)renderRootHeight;
-    boundingSprite.sprite->color = Color(percentHeight, percentHeight, percentHeight, 1);
+    switch (renderDir)
+    {
+    case RENDER_DIR_ROOT:
+        boundingSprite.sprite->color = Color(1, 1, 1, 1);
+        break;
+    case RENDER_DIR_LEFT:
+        boundingSprite.sprite->color = Color(percentHeight, 0, 0, 1);
+        break;
+    case RENDER_DIR_RIGHT:
+        boundingSprite.sprite->color = Color(0, 0, percentHeight, 1);
+        break;
+    default:
+        boundingSprite.sprite->color = Color(percentHeight, percentHeight, percentHeight, 1);
+        break;
+    }
     Renderer::Instance().DrawNineSlice(boundingSprite);
 }
