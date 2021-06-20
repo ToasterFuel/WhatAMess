@@ -129,6 +129,10 @@ void AABBSystem::RecalculateBounds(AABBNode* startNode)
 
 void AABBSystem::RenderTree()
 {
+    if(root != nullptr)
+        renderRootHeight = root->height + 1;
+    else
+        renderRootHeight = 0;
     RenderTree(root);
 }
 
@@ -136,12 +140,14 @@ void AABBSystem::RenderTree(AABBNode* node)
 {
     if(node == nullptr)
         return;
-    
+
     RenderTree(node->left);
     RenderTree(node->right);
 
     boundingSprite.sprite->position = node->boundingBox.GetCenter();
     boundingSprite.sprite->scale.x = node->boundingBox.GetWidth();
     boundingSprite.sprite->scale.y = node->boundingBox.GetHeight();
+    float percentHeight = (float)node->height / (float)renderRootHeight;
+    boundingSprite.sprite->color = Color(percentHeight, percentHeight, percentHeight, 1);
     Renderer::Instance().DrawNineSlice(boundingSprite);
 }

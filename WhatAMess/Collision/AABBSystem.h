@@ -39,6 +39,7 @@ private:
 
     Sprite boxSprite;
     NineSliceSprite boundingSprite;
+    int renderRootHeight;
 };
 
 #endif
