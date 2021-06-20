@@ -93,7 +93,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         bool rightNodeLower = GetLowerNode(lastFitNode) > 0;
         AABBNode* oldChild = lastFitNode->left;
         if(rightNodeLower)
-            AABBNode* oldRight = lastFitNode->right;
+            oldChild = lastFitNode->right;
 
         BoundingBox containingBox = BoundingBox();
         containingBox.Init(boundingBox, oldChild->boundingBox);
