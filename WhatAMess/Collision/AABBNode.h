@@ -9,10 +9,12 @@ public:
     AABBNode* parent;
     AABBNode* left;
     AABBNode* right;
-    BoundingBox boundingBox;
+    BoundingBox originalBoundingBox;
+    BoundingBox fattenedBoundingBox;
     int height;
 
-    void Init(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right);
+    void Init(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right, float fattenAmount);
+    void RecalculateBoundedBoxes(BoundingBox a, BoundingBox b, float fattenAmount);
 };
 
 #endif

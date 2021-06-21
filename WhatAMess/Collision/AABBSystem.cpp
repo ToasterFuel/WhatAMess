@@ -2,6 +2,8 @@
 #include "../Graphics/Renderer.h"
 #include "../Utility/MathUtils.h"
 
+#define FATTEN_AMOUNT 10
+
 void AABBSystem::Init(Shader* spriteShader, Texture2d* boxTexture, glm::vec4 nineSliceBorders)
 {
     boxSprite = Sprite();
@@ -32,7 +34,7 @@ int AABBSystem::GetLowerNode(AABBNode* left, AABBNode* right)
 AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right)
 {
     AABBNode* node = new AABBNode();
-    node->Init(boundingBox, parent, left, right);
+    node->Init(boundingBox, parent, left, right, FATTEN_AMOUNT);
     if(left != nullptr)
         left->parent = node;
     if(right != nullptr)
@@ -51,10 +53,10 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
 
     AABBNode* lastFitNode = nullptr;
     AABBNode* current = root;
-    while(current->boundingBox.Overlaps(boundingBox))
+    while(current->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox))
     {
-        bool leftChildOverlap = current->left != nullptr && current->left->boundingBox.Overlaps(boundingBox);
-        bool rightChildOverlap = current->right != nullptr && current->right->boundingBox.Overlaps(boundingBox);
+        bool leftChildOverlap = current->left != nullptr && current->left->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox);
+        bool rightChildOverlap = current->right != nullptr && current->right->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox);
         if(!leftChildOverlap && !rightChildOverlap)
         {
             lastFitNode = current;
@@ -85,7 +87,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
     if(lastFitNode == nullptr)
     {
         BoundingBox containingBox = BoundingBox();
-        containingBox.Init(boundingBox, root->boundingBox);
+        containingBox.Init(newNode->fattenedBoundingBox, root->fattenedBoundingBox);
         root = CreateNode(containingBox, lastFitNode, newNode, root);
     }
     else
@@ -99,7 +101,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         if(oldChild == nullptr)
         {
             BoundingBox containingBox = BoundingBox();
-            containingBox.Init(boundingBox, lastFitNode->boundingBox);
+            containingBox.Init(newNode->fattenedBoundingBox, lastFitNode->fattenedBoundingBox);
 
             AABBNode* createdNode = CreateNode(containingBox, lastFitNode->parent, newNode, lastFitNode);
             if(createdNode->parent == nullptr)
@@ -118,7 +120,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         else
         {
             BoundingBox containingBox = BoundingBox();
-            containingBox.Init(boundingBox, oldChild->boundingBox);
+            containingBox.Init(newNode->fattenedBoundingBox, oldChild->fattenedBoundingBox);
 
             if(rightNodeLower)
             {
@@ -143,7 +145,7 @@ void AABBSystem::RecalculateBounds(AABBNode* startNode)
     {
         if(current->left != nullptr && current->right != nullptr)
         {
-            current->boundingBox.Init(current->left->boundingBox, current->right->boundingBox);
+            current->RecalculateBoundedBoxes(current->left->fattenedBoundingBox, current->right->fattenedBoundingBox, FATTEN_AMOUNT);
             current->height = MathUtils::Max(current->left->height, current->right->height) + 1;
         }
         current = current->parent;
@@ -167,9 +169,9 @@ void AABBSystem::RenderTree(AABBNode* node, RenderDirection renderDir)
     RenderTree(node->left, RENDER_DIR_LEFT);
     RenderTree(node->right, RENDER_DIR_RIGHT);
 
-    boundingSprite.sprite->position = node->boundingBox.GetCenter();
-    boundingSprite.sprite->scale.x = node->boundingBox.GetWidth();
-    boundingSprite.sprite->scale.y = node->boundingBox.GetHeight();
+    boundingSprite.sprite->position = node->fattenedBoundingBox.GetCenter();
+    boundingSprite.sprite->scale.x = node->fattenedBoundingBox.GetWidth();
+    boundingSprite.sprite->scale.y = node->fattenedBoundingBox.GetHeight();
     float percentHeight = (float)node->height / (float)renderRootHeight;
     switch (renderDir)
     {
