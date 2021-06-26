@@ -125,7 +125,7 @@ void GameLogic::CreateRing(glm::vec2 position)
     Ring* ring = new Ring();
     ring->Init(position, testShader, ringTexture);
     ringHolder.push_back(ring);
-    AABBSystem::Instance().AddBoundingBox(ring->CreateBoundingBox());
+    AABBSystem::Instance().AddBoundingBox(ring->GetBoundingBoxId(), nullptr);
 }
 
 void GameLogic::Update()
@@ -141,6 +141,7 @@ void GameLogic::Update()
 
     for(Ring* ring: ringHolder)
     {
+        ring->Update();
         ring->Render();
     }
     AABBSystem::Instance().RenderTree();

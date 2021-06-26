@@ -1,6 +1,22 @@
 #include "BoundingBox.h"
 #include "../Utility/VectorUtils.h"
 
+BoundingBox::BoundingBox(): containingNode(nullptr), min(glm::vec2()), max(glm::vec2()), center(glm::vec2())
+{
+}
+
+void BoundingBox::SetContainingNode(AABBNode* containingNode)
+{
+    this->containingNode = containingNode;
+}
+
+void BoundingBox::Init(BoundingBox* other)
+{
+    min = other->min;
+    max = other->max;
+    center = other->center;
+}
+
 void BoundingBox::Init(glm::vec2 center, float radius)
 {
     this->center = center;
@@ -9,11 +25,20 @@ void BoundingBox::Init(glm::vec2 center, float radius)
     max = glm::vec2(center.x + halfRadius, center.y + halfRadius);
 }
 
-void BoundingBox::Init(BoundingBox a, BoundingBox b)
+void BoundingBox::Init(BoundingBox* a, BoundingBox* b)
 {
-    min = VectorUtils::Min(a.min, b.min);
-    max = VectorUtils::Max(a.max, b.max);
+    min = VectorUtils::Min(a->min, b->min);
+    max = VectorUtils::Max(a->max, b->max);
     center = VectorUtils::FindCenter(min, max);
+}
+
+void BoundingBox::Move(glm::vec2 moveAmount)
+{
+    center += moveAmount;
+    min += moveAmount;
+    max += moveAmount;
+    if(containingNode != nullptr)
+        containingNode->OriginalBoundingBoxMoved();
 }
 
 void BoundingBox::Extend(float xAmount, float yAmount)
@@ -47,27 +72,27 @@ glm::vec2 BoundingBox::GetCenter()
     return center;
 }
 
-bool BoundingBox::FullyEncapsulates(BoundingBox& other)
+bool BoundingBox::FullyEncapsulates(BoundingBox* other)
 {
-    return other.GetMin().x > GetMin().x
-        && other.GetMax().x < GetMax().x
-        && other.GetMin().y > GetMin().y
-        && other.GetMax().y < GetMax().y;
+    return other->GetMin().x > GetMin().x
+        && other->GetMax().x < GetMax().x
+        && other->GetMin().y > GetMin().y
+        && other->GetMax().y < GetMax().y;
 }
 
-bool BoundingBox::FullyContainedIn(BoundingBox& other)
+bool BoundingBox::FullyContainedIn(BoundingBox* other)
 {
-    return GetMin().x > other.GetMin().x
-        && GetMax().x < other.GetMax().x
-        && GetMin().y > other.GetMin().y
-        && GetMax().y < other.GetMax().y;
+    return GetMin().x > other->GetMin().x
+        && GetMax().x < other->GetMax().x
+        && GetMin().y > other->GetMin().y
+        && GetMax().y < other->GetMax().y;
 }
 
-bool BoundingBox::Overlaps(BoundingBox& other)
+bool BoundingBox::Overlaps(BoundingBox* other)
 {
     //return maxx1 > minx2 && minx1 < maxx2 && maxy1 > miny2 && miny1 < maxy2
-    return GetMax().x > other.GetMin().x
-            && GetMin().x < other.GetMax().x
-            && GetMax().y > other.GetMin().y
-            && GetMin().y < other.GetMax().y;
+    return GetMax().x > other->GetMin().x
+            && GetMin().x < other->GetMax().x
+            && GetMax().y > other->GetMin().y
+            && GetMin().y < other->GetMax().y;
 }

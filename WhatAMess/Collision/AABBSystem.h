@@ -24,11 +24,12 @@ public:
 
     void Init(Shader* spriteShader, Texture2d* boxTexture, glm::vec4 nineSliceBorders);
 
-    void AddBoundingBox(BoundingBox boundingBox);
+    void RemoveBoundingBox(AABBNode* existingNode);
+    void AddBoundingBox(int boundingBoxId, AABBNode* existingNode);
     void RenderTree();
 private:
     AABBNode* root;
-    AABBNode* CreateNode(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right);
+    AABBNode* CreateNode(int boundingBoxId, AABBNode* parent, AABBNode* left, AABBNode* right);
     /*
      * < 0 if left is lower
      * 0 if they are equal

@@ -1,6 +1,9 @@
 #include "AABBSystem.h"
 #include "../Graphics/Renderer.h"
 #include "../Utility/MathUtils.h"
+#include "BoundingBoxHelper.h"
+
+#include <iostream>
 
 #define FATTEN_AMOUNT 10
 
@@ -31,10 +34,10 @@ int AABBSystem::GetLowerNode(AABBNode* left, AABBNode* right)
     return left->height - right->height;
 }
 
-AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABBNode* left, AABBNode* right)
+AABBNode* AABBSystem::CreateNode(int boundingBoxId, AABBNode* parent, AABBNode* left, AABBNode* right)
 {
     AABBNode* node = new AABBNode();
-    node->Init(boundingBox, parent, left, right, FATTEN_AMOUNT);
+    node->Init(boundingBoxId, parent, left, right, FATTEN_AMOUNT);
     if(left != nullptr)
         left->parent = node;
     if(right != nullptr)
@@ -42,21 +45,85 @@ AABBNode* AABBSystem::CreateNode(BoundingBox boundingBox, AABBNode* parent, AABB
     return node;
 }
 
-void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
+void AABBSystem::RemoveBoundingBox(AABBNode* existingNode)
 {
-    AABBNode* newNode = CreateNode(boundingBox, nullptr, nullptr, nullptr);
+    if(existingNode->left != nullptr)
+        std::cout << "OMG This has a left child!\n";
+    if(existingNode->right != nullptr)
+        std::cout << "OMG This has a right child!\n";
+    if(existingNode->parent == nullptr)
+    {
+        std::cout << "In here!\n";
+        root = nullptr;
+        return;
+    }
+
+    //God this is messy, can I clean it up at all?
+    AABBNode* originalParentNode = root->parent;
+    root->parent = nullptr;
+    bool isLeftChild = originalParentNode->left == existingNode;
+    if(isLeftChild)
+    {
+        originalParentNode->right->parent = originalParentNode->parent;
+    }
+    else
+    {
+        originalParentNode->left->parent = originalParentNode->parent;
+    }
+
+    if(originalParentNode != nullptr)
+    {
+        if(originalParentNode->parent->right == originalParentNode)
+        {
+            if(isLeftChild)
+            {
+                originalParentNode->parent->right = originalParentNode->right;
+            }
+            else
+            {
+                originalParentNode->parent->right = originalParentNode->left;
+            }
+        }
+        else
+        {
+            if(isLeftChild)
+            {
+                originalParentNode->parent->left = originalParentNode->right;
+            }
+            else
+            {
+                originalParentNode->parent->left = originalParentNode->left;
+            }
+        }
+        originalParentNode->right = nullptr;
+        originalParentNode->left = nullptr;
+    }
+
+    /*
+     * The parentNode had allocated 2 bounding boxes that are not being cleaned up heres
+     * (Along with all the other reasons that delete shouldn't be called here)
+     */
+    delete originalParentNode;
+}
+
+void AABBSystem::AddBoundingBox(int boundingBoxId, AABBNode* existingNode)
+{
+    AABBNode* newNode = existingNode;
+    if(newNode == nullptr)
+        newNode = CreateNode(boundingBoxId, nullptr, nullptr, nullptr);
     if(root == nullptr)
     {
+        std::cout << "Inserting!\n";
         root = newNode;
         return;
     }
 
     AABBNode* lastFitNode = nullptr;
     AABBNode* current = root;
-    while(current->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox))
+    while(BoundingBoxHelper::Overlaps(current->fattenedBoundingBoxId, newNode->fattenedBoundingBoxId))
     {
-        bool leftChildOverlap = current->left != nullptr && current->left->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox);
-        bool rightChildOverlap = current->right != nullptr && current->right->fattenedBoundingBox.Overlaps(newNode->fattenedBoundingBox);
+        bool leftChildOverlap = current->left != nullptr && BoundingBoxHelper::Overlaps(current->left->fattenedBoundingBoxId, newNode->fattenedBoundingBoxId);
+        bool rightChildOverlap = current->right != nullptr && BoundingBoxHelper::Overlaps(current->right->fattenedBoundingBoxId, newNode->fattenedBoundingBoxId);
         if(!leftChildOverlap && !rightChildOverlap)
         {
             lastFitNode = current;
@@ -86,9 +153,8 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
 
     if(lastFitNode == nullptr)
     {
-        BoundingBox containingBox = BoundingBox();
-        containingBox.Init(newNode->fattenedBoundingBox, root->fattenedBoundingBox);
-        root = CreateNode(containingBox, lastFitNode, newNode, root);
+        int containingBoxId = BoundingBoxHelper::CreateAndInit(newNode->fattenedBoundingBoxId, root->fattenedBoundingBoxId);
+        root = CreateNode(containingBoxId, lastFitNode, newNode, root);
     }
     else
     {
@@ -100,9 +166,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         //If the child is null, that means the new boundingbox is overlapping with the lastFitNode
         if(oldChild == nullptr)
         {
-            BoundingBox containingBox = BoundingBox();
-            containingBox.Init(newNode->fattenedBoundingBox, lastFitNode->fattenedBoundingBox);
-
+            int containingBox = BoundingBoxHelper::CreateAndInit(newNode->fattenedBoundingBoxId, lastFitNode->fattenedBoundingBoxId);
             AABBNode* createdNode = CreateNode(containingBox, lastFitNode->parent, newNode, lastFitNode);
             if(createdNode->parent == nullptr)
             {
@@ -119,8 +183,7 @@ void AABBSystem::AddBoundingBox(BoundingBox boundingBox)
         }
         else
         {
-            BoundingBox containingBox = BoundingBox();
-            containingBox.Init(newNode->fattenedBoundingBox, oldChild->fattenedBoundingBox);
+            int containingBox = BoundingBoxHelper::CreateAndInit(newNode->fattenedBoundingBoxId, oldChild->fattenedBoundingBoxId);
 
             if(rightNodeLower)
             {
@@ -145,7 +208,7 @@ void AABBSystem::RecalculateBounds(AABBNode* startNode)
     {
         if(current->left != nullptr && current->right != nullptr)
         {
-            current->RecalculateBoundedBoxes(current->left->fattenedBoundingBox, current->right->fattenedBoundingBox, FATTEN_AMOUNT);
+            current->RecalculateBoundedBoxes(current->left->fattenedBoundingBoxId, current->right->fattenedBoundingBoxId, FATTEN_AMOUNT);
             current->height = MathUtils::Max(current->left->height, current->right->height) + 1;
         }
         current = current->parent;
@@ -169,9 +232,10 @@ void AABBSystem::RenderTree(AABBNode* node, RenderDirection renderDir)
     RenderTree(node->left, RENDER_DIR_LEFT);
     RenderTree(node->right, RENDER_DIR_RIGHT);
 
-    boundingSprite.sprite->position = node->fattenedBoundingBox.GetCenter();
-    boundingSprite.sprite->scale.x = node->fattenedBoundingBox.GetWidth();
-    boundingSprite.sprite->scale.y = node->fattenedBoundingBox.GetHeight();
+    BoundingBox* boundingBox = NodeHolder::Instance().GetBoundingBox(node->fattenedBoundingBoxId);
+    boundingSprite.sprite->position = boundingBox->GetCenter();
+    boundingSprite.sprite->scale.x = boundingBox->GetWidth();
+    boundingSprite.sprite->scale.y = boundingBox->GetHeight();
     float percentHeight = (float)node->height / (float)renderRootHeight;
     switch (renderDir)
     {

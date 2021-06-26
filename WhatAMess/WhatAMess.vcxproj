@@ -39,6 +39,7 @@
     <ClCompile Include="Graphics\Window.cpp" />
     <ClCompile Include="Input\OpenGL\OpenGL_Input.cpp" />
     <ClCompile Include="Input\WebGL\WebGL_Input.cpp" />
+    <ClCompile Include="ObjectManagement\NodeHolder.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Timing\OpenGL\OpenGL_Time.cpp" />
     <ClCompile Include="Timing\Time.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="Collision\AABBNode.h" />
     <ClInclude Include="Collision\AABBSystem.h" />
     <ClInclude Include="Collision\BoundingBox.h" />
+    <ClInclude Include="Collision\BoundingBoxHelper.h" />
     <ClInclude Include="Game\Components\Ring.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameLogic.h" />
@@ -73,6 +75,7 @@
     <ClInclude Include="Input\MouseCode.h" />
     <ClInclude Include="Input\OpenGL\OpenGL_Input.h" />
     <ClInclude Include="Input\WebGL\WebGL_Input.h" />
+    <ClInclude Include="ObjectManagement\NodeHolder.h" />
     <ClInclude Include="Shader_s.h" />
     <ClInclude Include="Timing\OpenGL\OpenGL_Time.h" />
     <ClInclude Include="Timing\Time.h" />

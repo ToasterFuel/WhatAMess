@@ -13,9 +13,11 @@ class Ring
 public:
     void Init(glm::vec2 position, Shader* spriteShader, Texture2d* ringTexture);
     void Render();
-    BoundingBox CreateBoundingBox();
+    void Update();
+    int GetBoundingBoxId();
 private:
     Sprite sprite;
+    int boundingBoxId;
 };
 
 #endif
