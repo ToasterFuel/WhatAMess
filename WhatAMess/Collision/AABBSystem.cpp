@@ -53,7 +53,6 @@ void AABBSystem::RemoveBoundingBox(AABBNode* existingNode)
         std::cout << "OMG This has a right child!\n";
     if(existingNode->parent == nullptr)
     {
-        std::cout << "In here!\n";
         root = nullptr;
         return;
     }
@@ -109,11 +108,13 @@ void AABBSystem::RemoveBoundingBox(AABBNode* existingNode)
 void AABBSystem::AddBoundingBox(int boundingBoxId, AABBNode* existingNode)
 {
     AABBNode* newNode = existingNode;
-    if(newNode == nullptr)
+    if (newNode == nullptr)
         newNode = CreateNode(boundingBoxId, nullptr, nullptr, nullptr);
+    else
+        BoundingBoxHelper::ExtendFromOther(existingNode->fattenedBoundingBoxId, existingNode->originalBoundingBoxId, FATTEN_AMOUNT, FATTEN_AMOUNT);
+
     if(root == nullptr)
     {
-        std::cout << "Inserting!\n";
         root = newNode;
         return;
     }
