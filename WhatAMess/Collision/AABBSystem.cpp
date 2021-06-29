@@ -58,8 +58,8 @@ void AABBSystem::RemoveBoundingBox(AABBNode* existingNode)
     }
 
     //God this is messy, can I clean it up at all?
-    AABBNode* originalParentNode = root->parent;
-    root->parent = nullptr;
+    AABBNode* originalParentNode = existingNode->parent;
+    existingNode->parent = nullptr;
     bool isLeftChild = originalParentNode->left == existingNode;
     if(isLeftChild)
     {
@@ -72,7 +72,20 @@ void AABBSystem::RemoveBoundingBox(AABBNode* existingNode)
 
     if(originalParentNode != nullptr)
     {
-        if(originalParentNode->parent->right == originalParentNode)
+        //Original parent is actually the root
+        if(originalParentNode->parent == nullptr)
+        {
+            if(isLeftChild)
+            {
+                root = originalParentNode->right;
+            }
+            else
+            {
+                root = originalParentNode->left;
+            }
+            root->parent = nullptr;
+        }
+        else if(originalParentNode->parent->right == originalParentNode)
         {
             if(isLeftChild)
             {
