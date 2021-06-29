@@ -16,6 +16,8 @@ public:
     void Update();
     int GetBoundingBoxId();
 private:
+    glm::vec2 moveDirection;
+    float moveSpeed;
     Sprite sprite;
     int boundingBoxId;
 };

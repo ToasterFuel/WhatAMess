@@ -212,5 +212,8 @@
     <ClInclude Include="Collision\BoundingBoxHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\RandomUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -83,6 +83,7 @@
     <ClInclude Include="Utility\Image.h" />
     <ClInclude Include="Utility\MathUtils.h" />
     <ClInclude Include="Utility\OpenGL\OpenGL_ResourceManager.h" />
+    <ClInclude Include="Utility\RandomUtils.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\ShaderData.h" />
     <ClInclude Include="Utility\WebGL\WebGL_ResourceManager.h" />
